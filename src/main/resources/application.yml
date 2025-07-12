@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: community
+
+  datasource:
+    url: "${DB_URL}"
+    username: "${DB_NAME}"
+    password: "${DB_PWD}"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
