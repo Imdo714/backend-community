@@ -22,5 +22,11 @@ public class Board {
     @Column(name = "create_date")
     private LocalDateTime createDate;
 
-
+    public static Board builderBoard(String title, String content){
+        return Board.builder()
+                .title(title)
+                .content(content)
+                .createDate(LocalDateTime.now())
+                .build();
+    }
 }
