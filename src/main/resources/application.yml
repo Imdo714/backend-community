@@ -11,3 +11,7 @@ spring:
     password: "${DB_PWD}"
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  jwt:
+    header: Authorization
+    secret: "${JWT_SECRET}"
+    token-validity-in-seconds: "${JWT_VALIDITY_SECONDS}"

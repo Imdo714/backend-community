@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -70,6 +71,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<GroupRequest> groupRequests = new ArrayList<>();
 
+    public boolean isPasswordMatch(String rawPassword, PasswordEncoder encoder) {
+        return encoder.matches(rawPassword, this.password);
+    }
 
     public void wakeUpStreakUpdate(Boolean wroteYesterday){
         if(wroteYesterday){
