@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
     @Override
     public String loginAndGenerateToken(LoginDto loginDto) {
         User user = findEmailUser(loginDto.getEmail());
@@ -34,16 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void join(JoinDto joinDto) {
         existsByEmail(joinDto);
-        String encodedPassword = bCryptPasswordEncoder.encode(joinDto.getPassword());
-
-        User user = User.builder()
-                .email(joinDto.getEmail())
-                .password(encodedPassword)
-                .name(joinDto.getName())
-                .userClass(joinDto.getUserClass())
-                .userTarget(joinDto.getUserTarget())
-                .createDate(LocalDate.now())
-                .build();
+        User user = User.createUserBuilder(joinDto, bCryptPasswordEncoder.encode(joinDto.getPassword()));
 
         userRepository.save(user);
     }

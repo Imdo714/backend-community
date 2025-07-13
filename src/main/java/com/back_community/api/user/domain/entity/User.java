@@ -3,6 +3,7 @@ package com.back_community.api.user.domain.entity;
 import com.back_community.api.studyGroup.group.domain.entity.StudyGroup;
 import com.back_community.api.studyGroup.groupRequest.domain.entity.GroupRequest;
 import com.back_community.api.studyLog.board.domain.entity.StudyLog;
+import com.back_community.api.user.domain.dto.request.JoinDto;
 import com.back_community.api.wakeUpLog.board.domain.entity.WakeUpLog;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -70,6 +71,17 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<GroupRequest> groupRequests = new ArrayList<>();
+
+    public static User createUserBuilder(JoinDto joinDto, String encodedPassword){
+        return User.builder()
+                .email(joinDto.getEmail())
+                .password(encodedPassword)
+                .name(joinDto.getName())
+                .userClass(joinDto.getUserClass())
+                .userTarget(joinDto.getUserTarget())
+                .createDate(LocalDate.now())
+                .build();
+    }
 
     public boolean isPasswordMatch(String rawPassword, PasswordEncoder encoder) {
         return encoder.matches(rawPassword, this.password);
