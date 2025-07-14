@@ -4,6 +4,7 @@ import com.back_community.api.ApiResponse;
 import com.back_community.api.common.authentication.CustomUserPrincipal;
 import com.back_community.api.wakeUpLog.board.domain.dto.request.CreateWakeUpLogDto;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.CreateWakeUpResponse;
+import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogDetailResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
 import com.back_community.api.wakeUpLog.board.service.WakeUpLogService;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,11 @@ public class WakeUpLogController {
                                                             @RequestParam(defaultValue = "5") int size){
         return ApiResponse.ok(wakeUpLogService.getWakeUpLogList(userPrincipal, page, size));
     }
+
+    @GetMapping("/wake-up-log/{logId}")
+    public ApiResponse<WakeUpLogDetailResponse> wakeUpLogDetail(@PathVariable Long logId){
+        return ApiResponse.ok(wakeUpLogService.wakeUpLogDetail(logId));
+    }
+
 
 }

@@ -6,6 +6,7 @@ import com.back_community.api.user.domain.entity.User;
 import com.back_community.api.wakeUpLog.board.domain.dto.request.CreateWakeUpLogDto;
 import com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpLogListDto;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.CreateWakeUpResponse;
+import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogDetailResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
 import com.back_community.api.wakeUpLog.board.domain.entity.WakeUpLog;
 import com.back_community.api.wakeUpLog.dao.WakeUpLogDao;
@@ -64,6 +65,14 @@ public class WakeUpLogServiceImpl implements WakeUpLogService {
         }
 
         return WakeUpLogListResponse.wakeUpListPage(wakeUpLogList, likedIds);
+    }
+
+    @Override
+    public WakeUpLogDetailResponse wakeUpLogDetail(Long logId) {
+        WakeUpLog wakeUpLogDetail = wakeUpLogDao.getWakeUpLog(logId);
+        int countWakeUpLogLikes = wakeUpLogDao.getCountWakeUpLogLikes(logId);
+
+        return WakeUpLogDetailResponse.of(wakeUpLogDetail, countWakeUpLogLikes);
     }
 
     private void yesterdayWakeUpLogStreak(Long userId, User user) {

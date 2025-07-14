@@ -5,6 +5,7 @@ import com.back_community.api.user.repository.UserRepository;
 import com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpLogListDto;
 import com.back_community.api.wakeUpLog.board.domain.entity.WakeUpLog;
 import com.back_community.api.wakeUpLog.board.repository.WakeUpLogRepository;
+import com.back_community.api.wakeUpLog.likes.repository.WakeUpLikeRepository;
 import com.back_community.global.exception.handleException.MismatchException;
 import com.back_community.global.exception.handleException.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class WakeUpLogDao {
 
     private final WakeUpLogRepository wakeUpLogRepository;
     private final UserRepository userRepository;
+    private final WakeUpLikeRepository wakeUpLikeRepository;
 
     public WakeUpLog saveWakeUpLog(WakeUpLog wakeUpLog){
         return wakeUpLogRepository.save(wakeUpLog);
@@ -40,6 +42,15 @@ public class WakeUpLogDao {
 
     public List<Long> findLikedLogIdsByUserId(Long userId, List<Long> wakeUpIds){
         return wakeUpLogRepository.findLikedLogIdsByUserId(userId, wakeUpIds);
+    }
+
+    public int getCountWakeUpLogLikes(Long logId) {
+        return wakeUpLikeRepository.findWakeUpLikesCount(logId);
+    }
+
+    public WakeUpLog getWakeUpLog(Long wakeUpId){
+        return wakeUpLogRepository.findById(wakeUpId)
+                .orElseThrow(() -> new NotFoundException("해당 기상 게시물은 존재하지 않습니다."));
     }
 
     public User getUserLock(Long userId) {
