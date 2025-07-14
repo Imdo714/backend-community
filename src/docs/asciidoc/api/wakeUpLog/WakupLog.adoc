@@ -1,4 +1,4 @@
-[[product-create]]
+[[wake-up-log-create]]
 === 기상 게시물 등록
 
 ==== HTTP Request

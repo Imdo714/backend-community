@@ -13,3 +13,5 @@ endif::[]
 == WakeUpLog 생성 API
 
 include::api/wakeUpLog/WakupLog.adoc[]
+
+include::api/wakeUpLog/WakeUpLogList.adoc[]
