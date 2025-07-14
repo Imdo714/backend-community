@@ -1,0 +1,10 @@
+[[product-create]]
+=== 기상 게시물 등록
+
+==== HTTP Request
+include::{snippets}/wake-up-log-create/http-request.adoc[]
+include::{snippets}/wake-up-log-create/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/wake-up-log-create/http-response.adoc[]
+include::{snippets}/wake-up-log-create/response-fields.adoc[]
