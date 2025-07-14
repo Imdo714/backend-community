@@ -1,0 +1,10 @@
+[[wake-up-log-list]]
+=== 기상 게시물 리스트 조회
+
+==== HTTP Request
+include::{snippets}/wake-up-log-detail/http-request.adoc[]
+include::{snippets}/wake-up-log-detail/httpie-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/wake-up-log-detail/http-response.adoc[]
+include::{snippets}/wake-up-log-detail/response-fields.adoc[]

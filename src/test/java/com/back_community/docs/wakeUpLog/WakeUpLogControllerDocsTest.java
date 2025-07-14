@@ -6,6 +6,7 @@ import com.back_community.api.common.page.PageInfo;
 import com.back_community.api.wakeUpLog.board.controller.WakeUpLogController;
 import com.back_community.api.wakeUpLog.board.domain.dto.request.CreateWakeUpLogDto;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.CreateWakeUpResponse;
+import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogDetailResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
 import com.back_community.api.wakeUpLog.board.service.WakeUpLogService;
 import com.back_community.docs.RestDocsSupport;
@@ -24,6 +25,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -123,6 +126,42 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("data.pageable.totalPages").description("총 페이지 수"),
                                 fieldWithPath("data.pageable.currentPage").description("현재 페이지"),
                                 fieldWithPath("data.pageable.size").description("페이지 사이즈")
+                        )
+                ));
+    }
+
+    @DisplayName("기상 게시물 상세 조회 API 문서화")
+    @Test
+    void wakeUpLogDetail() throws Exception {
+        // given
+        Long logId = 1L;
+
+        WakeUpLogDetailResponse response = WakeUpLogDetailResponse.builder()
+                .title("기상 기록 제목")
+                .content("기상 내용")
+                .createDate(LocalDateTime.of(2025, 7, 14, 7, 0))
+                .likesCount(10)
+                .build();
+
+        given(wakeUpLogService.wakeUpLogDetail(logId)).willReturn(response);
+
+        // when then
+        mockMvc.perform(get("/wake-up-log/{logId}", logId))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("wake-up-log-detail",
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("logId").description("기상 게시물 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING).description("응답 상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
+                                fieldWithPath("data.title").type(JsonFieldType.STRING).description("기상 제목"),
+                                fieldWithPath("data.content").type(JsonFieldType.STRING).description("기상 내용"),
+                                fieldWithPath("data.createDate").type(JsonFieldType.ARRAY).description("작성일시"),
+                                fieldWithPath("data.likesCount").type(JsonFieldType.NUMBER).description("좋아요 수")
                         )
                 ));
     }
