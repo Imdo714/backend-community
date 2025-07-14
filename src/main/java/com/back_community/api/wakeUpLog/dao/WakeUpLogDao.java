@@ -2,15 +2,20 @@ package com.back_community.api.wakeUpLog.dao;
 
 import com.back_community.api.user.domain.entity.User;
 import com.back_community.api.user.repository.UserRepository;
+import com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpLogListDto;
 import com.back_community.api.wakeUpLog.board.domain.entity.WakeUpLog;
 import com.back_community.api.wakeUpLog.board.repository.WakeUpLogRepository;
 import com.back_community.global.exception.handleException.MismatchException;
 import com.back_community.global.exception.handleException.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -26,6 +31,15 @@ public class WakeUpLogDao {
 
     public Boolean yesterdayByUserIdAndDate(Long userId, LocalDateTime startOfYesterday, LocalDateTime startOfToday){
         return wakeUpLogRepository.yesterdayByUserIdAndDate(userId, startOfYesterday, startOfToday);
+    }
+
+    public Page<WakeUpLogListDto> getWakeUpLogList(int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return wakeUpLogRepository.findWakeUpLogs(pageable);
+    }
+
+    public List<Long> findLikedLogIdsByUserId(Long userId, List<Long> wakeUpIds){
+        return wakeUpLogRepository.findLikedLogIdsByUserId(userId, wakeUpIds);
     }
 
     public User getUserLock(Long userId) {

@@ -1,18 +1,25 @@
 package com.back_community.api.wakeUpLog.board.service;
 
+import com.back_community.api.common.authentication.CustomUserPrincipal;
 import com.back_community.api.common.embedded.board.Board;
 import com.back_community.api.user.domain.entity.User;
 import com.back_community.api.wakeUpLog.board.domain.dto.request.CreateWakeUpLogDto;
+import com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpLogListDto;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.CreateWakeUpResponse;
+import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
 import com.back_community.api.wakeUpLog.board.domain.entity.WakeUpLog;
 import com.back_community.api.wakeUpLog.dao.WakeUpLogDao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -39,6 +46,24 @@ public class WakeUpLogServiceImpl implements WakeUpLogService {
         // 게시물을 올려야 wake_up_streak 을 계산하기 때문에 기상 인증 안 한 날이있어도 기존 wake_up_streak 값이 그대로 유지 됨
         yesterdayWakeUpLogStreak(userId, user);
         return CreateWakeUpResponse.createWakeUpSuccess(saved.getWakeUpId(), user.getWakeUpStreak());
+    }
+
+    @Override
+    public WakeUpLogListResponse getWakeUpLogList(CustomUserPrincipal userPrincipal, int page, int size) {
+        Page<WakeUpLogListDto> wakeUpLogList = wakeUpLogDao.getWakeUpLogList(page, size);
+        List<Long> likedIds;
+
+        if(userPrincipal != null){
+            List<Long> wakeUpIds = wakeUpLogList.getContent().stream()
+                    .map(WakeUpLogListDto::getWakeUpId)
+                    .collect(Collectors.toList());
+
+            likedIds = wakeUpLogDao.findLikedLogIdsByUserId(userPrincipal.getUserId(), wakeUpIds);
+        } else {
+            likedIds = Collections.emptyList();
+        }
+
+        return WakeUpLogListResponse.wakeUpListPage(wakeUpLogList, likedIds);
     }
 
     private void yesterdayWakeUpLogStreak(Long userId, User user) {
