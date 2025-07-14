@@ -10,6 +10,7 @@ import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogDetai
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
 import com.back_community.api.wakeUpLog.board.domain.entity.WakeUpLog;
 import com.back_community.api.wakeUpLog.dao.WakeUpLogDao;
+import com.back_community.global.exception.handleException.MismatchException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -75,6 +76,16 @@ public class WakeUpLogServiceImpl implements WakeUpLogService {
         return WakeUpLogDetailResponse.of(wakeUpLogDetail, countWakeUpLogLikes);
     }
 
+    @Override
+    @Transactional
+    public WakeUpLogDetailResponse wakeUpLogUpdate(Long logId, Long userId, CreateWakeUpLogDto createWakeUpLogDto) {
+        WakeUpLog wakeUpLog = validateWakeUpUserIsOwner(userId, logId);
+        int countWakeUpLogLikes = wakeUpLogDao.getCountWakeUpLogLikes(logId);
+
+        wakeUpLog.getBoard().updateBoard(createWakeUpLogDto);
+        return WakeUpLogDetailResponse.of(wakeUpLog, countWakeUpLogLikes);
+    }
+
     private void yesterdayWakeUpLogStreak(Long userId, User user) {
         LocalDate yesterday = LocalDate.now().minusDays(1);
         LocalDateTime startOfYesterday = yesterday.atStartOfDay();
@@ -83,4 +94,13 @@ public class WakeUpLogServiceImpl implements WakeUpLogService {
         user.wakeUpStreakUpdate(wakeUpLogDao.yesterdayByUserIdAndDate(userId, startOfYesterday, startOfToday));
     }
 
+    private WakeUpLog validateWakeUpUserIsOwner(Long userId, Long logId) {
+        WakeUpLog wakeUpLog = wakeUpLogDao.getWakeUpLog(logId);
+
+        if (!userId.equals(wakeUpLog.getUser().getUserId())) {
+            throw new MismatchException("작성자가 다릅니다!");
+        }
+
+        return wakeUpLog;
+    }
 }

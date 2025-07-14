@@ -35,5 +35,11 @@ public class WakeUpLogController {
         return ApiResponse.ok(wakeUpLogService.wakeUpLogDetail(logId));
     }
 
+    @PatchMapping("/wake-up-log/{logId}")
+    public ApiResponse<WakeUpLogDetailResponse> wakeUpLogUpdate(@PathVariable Long logId,
+                                                                @AuthenticationPrincipal CustomUserPrincipal userPrincipal,
+                                                                @RequestBody CreateWakeUpLogDto createWakeUpLogDto){
+        return ApiResponse.ok(wakeUpLogService.wakeUpLogUpdate(logId, userPrincipal.getUserId(), createWakeUpLogDto));
+    }
 
 }

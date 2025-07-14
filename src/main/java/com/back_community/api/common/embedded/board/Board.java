@@ -1,5 +1,6 @@
 package com.back_community.api.common.embedded.board;
 
+import com.back_community.api.wakeUpLog.board.domain.dto.request.CreateWakeUpLogDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;
@@ -28,5 +29,15 @@ public class Board {
                 .content(content)
                 .createDate(LocalDateTime.now())
                 .build();
+    }
+
+    public void updateBoard(CreateWakeUpLogDto createWakeUpLogDto) {
+        if (createWakeUpLogDto.getTitle() != null) {
+            this.title = createWakeUpLogDto.getTitle();
+        }
+
+        if (createWakeUpLogDto.getContent() != null) {
+            this.content = createWakeUpLogDto.getContent();
+        }
     }
 }
