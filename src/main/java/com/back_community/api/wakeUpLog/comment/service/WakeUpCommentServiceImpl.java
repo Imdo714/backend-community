@@ -7,6 +7,7 @@ import com.back_community.api.wakeUpLog.comment.domain.dto.request.CreateComment
 import com.back_community.api.wakeUpLog.comment.domain.dto.response.CommentListResponse;
 import com.back_community.api.wakeUpLog.comment.domain.entity.WakeUpComment;
 import com.back_community.api.wakeUpLog.dao.WakeUpLogDao;
+import com.back_community.global.exception.handleException.MismatchException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -37,6 +38,23 @@ public class WakeUpCommentServiceImpl implements WakeUpCommentService {
     public CommentListResponse getCommentList(Long logId, int page, int size) {
         Page<WakeUpComment> commentList = wakeUpLogDao.getCommentList(logId, page, size);
         return CommentListResponse.commentListBuilder(commentList);
+    }
+
+    @Override
+    @Transactional
+    public void getCommentUpdate(Long userId, Long logId, Long commentId, CreateCommentDto createCommentDto) {
+        WakeUpComment wakeUpComment = validateWakeUpCommentUserIsOwner(userId, commentId);
+        wakeUpComment.getComment().updateComment(createCommentDto);
+    }
+
+    private WakeUpComment validateWakeUpCommentUserIsOwner(Long userId, Long commentId) {
+        WakeUpComment comment = wakeUpLogDao.getWakeUpComment(commentId);
+
+        if (!userId.equals(comment.getUser().getUserId())) {
+            throw new MismatchException("댓글 작성자가 다릅니다!");
+        }
+
+        return comment;
     }
 
 }

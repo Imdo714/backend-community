@@ -30,4 +30,9 @@ public class Comment {
                 .build();
     }
 
+    public void updateComment(CreateCommentDto createCommentDto) {
+        if (createCommentDto.getContent() != null) {
+            this.content = createCommentDto.getContent();
+        }
+    }
 }

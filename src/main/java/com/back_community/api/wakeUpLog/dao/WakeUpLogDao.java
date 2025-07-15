@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -60,7 +61,7 @@ public class WakeUpLogDao {
     }
 
     public Page<WakeUpComment> getCommentList(Long logId, int page, int size){
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "comment.createDate"));
         return wakeUpCommentRepository.findByWakeUpLogWakeUpId(logId, pageable);
     }
 
@@ -77,6 +78,11 @@ public class WakeUpLogDao {
     public User getUser(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("해당 사용자가 존재하지 않습니다."));
+    }
+
+    public WakeUpComment getWakeUpComment(Long commentId) {
+        return wakeUpCommentRepository.findById(commentId)
+                .orElseThrow(() -> new NotFoundException("해당 기상 게시물에 존재하지 않는 댓글입니다."));
     }
 
     public void validateNotWakeUpLogToday(Long userId){

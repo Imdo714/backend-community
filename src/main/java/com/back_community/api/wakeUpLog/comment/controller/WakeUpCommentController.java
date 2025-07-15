@@ -34,4 +34,13 @@ public class WakeUpCommentController {
         return ApiResponse.ok(wakeUpCommentService.getCommentList(logId, page, size));
     }
 
+    @PatchMapping("/wake-up-log/{logId}/comment/{commentId}")
+    public ApiResponse<?> wakeUpCommentUpdate(@PathVariable Long logId,
+                                              @PathVariable Long commentId,
+                                              @AuthenticationPrincipal CustomUserPrincipal userPrincipal,
+                                              @RequestBody CreateCommentDto createCommentDto){
+        wakeUpCommentService.getCommentUpdate(userPrincipal.getUserId(), logId, commentId, createCommentDto);
+        return ApiResponse.of(HttpStatus.OK, "댓글 수정 성공");
+    }
+
 }

@@ -8,4 +8,6 @@ public interface WakeUpCommentService {
     void createComment(CreateCommentDto createCommentDto, Long userId, Long logId);
 
     CommentListResponse getCommentList(Long logId, int page, int size);
+
+    void getCommentUpdate(Long userId, Long logId, Long commentId, CreateCommentDto createCommentDto);
 }
