@@ -10,3 +10,16 @@ include::{snippets}/wake-up-comment-create/request-fields.adoc[]
 include::{snippets}/wake-up-comment-create/http-response.adoc[]
 include::{snippets}/wake-up-comment-create/response-fields.adoc[]
 
+
+[[wake-up-comment-list]]
+=== 기상 게시물 댓글 리스트
+
+==== HTTP Request
+include::{snippets}/wake-up-comment-list/http-request.adoc[]
+include::{snippets}/wake-up-comment-list/path-parameters.adoc[]
+
+==== HTTP Response
+include::{snippets}/wake-up-comment-list/http-response.adoc[]
+include::{snippets}/wake-up-comment-list/response-fields.adoc[]
+
+
