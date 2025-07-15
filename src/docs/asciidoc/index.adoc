@@ -18,3 +18,8 @@ include::api/wakeUpLog/WakeUpLog.adoc[]
 [[WakeUpComment-API]]
 == WakeUpComment 생성 API
 include::api/wakeUpLog/WakeUpComment.adoc[]
+
+
+[[WakeUpLike-API]]
+== WakeUpLike 생성 API
+include::api/wakeUpLog/WakeUpLike.adoc[]

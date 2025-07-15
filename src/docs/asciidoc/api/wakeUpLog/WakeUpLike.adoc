@@ -1,0 +1,22 @@
+[[wake-up-like-create]]
+=== 기상 게시물 좋아요 등록
+
+==== HTTP Request
+include::{snippets}/wake-up-like-create/http-request.adoc[]
+include::{snippets}/wake-up-like-create/path-parameters.adoc[]
+
+==== HTTP Response
+include::{snippets}/wake-up-like-create/http-response.adoc[]
+include::{snippets}/wake-up-like-create/response-fields.adoc[]
+
+
+[[wake-up-like-delete]]
+=== 기상 게시물 좋아요 취소
+
+==== HTTP Request
+include::{snippets}/wake-up-like-delete/http-request.adoc[]
+include::{snippets}/wake-up-like-delete/path-parameters.adoc[]
+
+==== HTTP Response
+include::{snippets}/wake-up-like-delete/http-response.adoc[]
+include::{snippets}/wake-up-like-delete/response-fields.adoc[]
