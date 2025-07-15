@@ -7,6 +7,7 @@ import com.back_community.api.wakeUpLog.board.domain.entity.WakeUpLog;
 import com.back_community.api.wakeUpLog.board.repository.WakeUpLogRepository;
 import com.back_community.api.wakeUpLog.comment.domain.entity.WakeUpComment;
 import com.back_community.api.wakeUpLog.comment.repoistory.WakeUpCommentRepository;
+import com.back_community.api.wakeUpLog.likes.domain.entity.WakeUpLike;
 import com.back_community.api.wakeUpLog.likes.repository.WakeUpLikeRepository;
 import com.back_community.global.exception.handleException.MismatchException;
 import com.back_community.global.exception.handleException.NotFoundException;
@@ -69,6 +70,10 @@ public class WakeUpLogDao {
         wakeUpCommentRepository.deleteById(commentId);
     }
 
+    public WakeUpLike saveWakeUpLike(WakeUpLike wakeUpLike){
+        return wakeUpLikeRepository.save(wakeUpLike);
+    }
+
     public WakeUpLog getWakeUpLog(Long wakeUpId){
         return wakeUpLogRepository.findById(wakeUpId)
                 .orElseThrow(() -> new NotFoundException("해당 기상 게시물은 존재하지 않습니다."));
@@ -93,6 +98,13 @@ public class WakeUpLogDao {
         Boolean counted = wakeUpLogRepository.countTodayLogsByUserId(userId);
         if (counted) {
             throw new MismatchException("오늘은 이미 게시물을 작성했습니다.");
+        }
+    }
+
+    public void validateNotLikedWakeUpLog(Long userId, Long wakeUpLogId){
+        boolean exists = wakeUpLikeRepository.existsByUserIdAndWakeUpLogId(userId, wakeUpLogId);
+        if (exists) {
+            throw new MismatchException("이미 좋아요한 게시물입니다.");
         }
     }
 

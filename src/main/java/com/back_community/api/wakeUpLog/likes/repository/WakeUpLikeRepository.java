@@ -9,5 +9,7 @@ public interface WakeUpLikeRepository extends JpaRepository<WakeUpLike, Long>  {
     @Query("SELECT COUNT(w) FROM WakeUpLike w WHERE w.wakeUpLog.wakeUpId = :logId")
     int findWakeUpLikesCount(Long logId);
 
+    @Query("SELECT COUNT(w) > 0 FROM WakeUpLike w WHERE w.user.userId = :userId AND w.wakeUpLog.wakeUpId = :wakeUpLogId")
+    boolean existsByUserIdAndWakeUpLogId(Long userId, Long wakeUpLogId);
 
 }
