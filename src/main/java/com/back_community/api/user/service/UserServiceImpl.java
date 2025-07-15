@@ -2,6 +2,7 @@ package com.back_community.api.user.service;
 
 import com.back_community.api.user.domain.dto.request.JoinDto;
 import com.back_community.api.user.domain.dto.request.LoginDto;
+import com.back_community.api.user.domain.dto.response.LoginResponse;
 import com.back_community.api.user.domain.entity.User;
 import com.back_community.api.user.repository.UserRepository;
 import com.back_community.global.exception.handleException.DuplicateEmailException;
@@ -22,11 +23,13 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public String loginAndGenerateToken(LoginDto loginDto) {
+    public LoginResponse loginAndGenerateToken(LoginDto loginDto) {
         User user = findEmailUser(loginDto.getEmail());
         matchPassword(loginDto, user);
 
-        return jwtTokenProvider.createToken(loginDto.getEmail(), user.getUserId());
+        return LoginResponse.builder()
+                .refreshToken(jwtTokenProvider.createToken(loginDto.getEmail(), user.getUserId()))
+                .build();
     }
 
     @Override

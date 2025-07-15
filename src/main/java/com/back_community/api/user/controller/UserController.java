@@ -3,6 +3,7 @@ package com.back_community.api.user.controller;
 import com.back_community.api.ApiResponse;
 import com.back_community.api.user.domain.dto.request.JoinDto;
 import com.back_community.api.user.domain.dto.request.LoginDto;
+import com.back_community.api.user.domain.dto.response.LoginResponse;
 import com.back_community.api.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ApiResponse<String> login(@RequestBody LoginDto loginDto) {
+    public ApiResponse<LoginResponse> login(@RequestBody LoginDto loginDto) {
         return ApiResponse.ok(userService.loginAndGenerateToken(loginDto));
     }
 
