@@ -9,8 +9,12 @@ endif::[]
 :toclevels: 2
 :sectlinks:
 
-[[Product-API]]
+[[WakeUpLog-API]]
 == WakeUpLog 생성 API
 
 include::api/wakeUpLog/WakeUpLog.adoc[]
 
+
+[[WakeUpComment-API]]
+== WakeUpComment 생성 API
+include::api/wakeUpLog/WakeUpComment.adoc[]

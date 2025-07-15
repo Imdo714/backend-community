@@ -1,0 +1,12 @@
+[[wake-up-comment-create]]
+=== 기상 게시물 댓글 등록
+
+==== HTTP Request
+include::{snippets}/wake-up-comment-create/http-request.adoc[]
+include::{snippets}/wake-up-comment-create/path-parameters.adoc[]
+include::{snippets}/wake-up-comment-create/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/wake-up-comment-create/http-response.adoc[]
+include::{snippets}/wake-up-comment-create/response-fields.adoc[]
+
