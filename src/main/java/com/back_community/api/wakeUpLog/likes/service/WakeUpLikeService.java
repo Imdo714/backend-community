@@ -4,4 +4,5 @@ public interface WakeUpLikeService {
 
     void createLike(Long logId, Long userId);
 
+    void deleteLike(Long logId, Long userId);
 }

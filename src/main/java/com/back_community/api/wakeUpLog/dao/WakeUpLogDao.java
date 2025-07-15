@@ -74,6 +74,10 @@ public class WakeUpLogDao {
         return wakeUpLikeRepository.save(wakeUpLike);
     }
 
+    public void deleteLike(Long userId) {
+        wakeUpLikeRepository.deleteById(userId);
+    }
+
     public WakeUpLog getWakeUpLog(Long wakeUpId){
         return wakeUpLogRepository.findById(wakeUpId)
                 .orElseThrow(() -> new NotFoundException("해당 기상 게시물은 존재하지 않습니다."));
@@ -92,6 +96,11 @@ public class WakeUpLogDao {
     public WakeUpComment getWakeUpComment(Long commentId) {
         return wakeUpCommentRepository.findById(commentId)
                 .orElseThrow(() -> new NotFoundException("해당 기상 게시물에 존재하지 않는 댓글입니다."));
+    }
+
+    public WakeUpLike validateLikedWakeUpLog(Long userId, Long wakeUpLogId) {
+        return wakeUpLikeRepository.findByUser_UserIdAndWakeUpLog_WakeUpId(userId, wakeUpLogId)
+                .orElseThrow(() -> new MismatchException("애초에 좋아요 하지 않은 게시물입니다."));
     }
 
     public void validateNotWakeUpLogToday(Long userId){

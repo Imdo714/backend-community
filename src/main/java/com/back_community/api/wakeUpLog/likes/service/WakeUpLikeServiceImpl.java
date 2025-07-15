@@ -29,4 +29,11 @@ public class WakeUpLikeServiceImpl implements WakeUpLikeService {
         WakeUpLike like = wakeUpLogDao.saveWakeUpLike(wakeUpLike);
     }
 
+    @Override
+    @Transactional
+    public void deleteLike(Long logId, Long userId) {
+        WakeUpLike wakeUpLike = wakeUpLogDao.validateLikedWakeUpLog(userId, logId);
+        wakeUpLogDao.deleteLike(wakeUpLike.getLikeId());
+    }
+
 }
