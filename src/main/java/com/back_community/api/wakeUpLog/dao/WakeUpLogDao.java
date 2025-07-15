@@ -59,6 +59,11 @@ public class WakeUpLogDao {
         return wakeUpCommentRepository.save(wakeUpComment);
     }
 
+    public Page<WakeUpComment> getCommentList(Long logId, int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return wakeUpCommentRepository.findByWakeUpLogWakeUpId(logId, pageable);
+    }
+
     public WakeUpLog getWakeUpLog(Long wakeUpId){
         return wakeUpLogRepository.findById(wakeUpId)
                 .orElseThrow(() -> new NotFoundException("해당 기상 게시물은 존재하지 않습니다."));
