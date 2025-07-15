@@ -43,4 +43,12 @@ public class WakeUpCommentController {
         return ApiResponse.of(HttpStatus.OK, "댓글 수정 성공");
     }
 
+    @DeleteMapping("/wake-up-log/{logId}/comment/{commentId}")
+    public ApiResponse<?> wakeUpCommentDelete(@PathVariable Long logId,
+                                              @PathVariable Long commentId,
+                                              @AuthenticationPrincipal CustomUserPrincipal userPrincipal){
+        wakeUpCommentService.getCommentDelete(logId, commentId, userPrincipal.getUserId());
+        return ApiResponse.of(HttpStatus.OK, "댓글 삭제 성공");
+    }
+
 }

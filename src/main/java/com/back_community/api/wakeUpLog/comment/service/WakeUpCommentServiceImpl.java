@@ -47,6 +47,13 @@ public class WakeUpCommentServiceImpl implements WakeUpCommentService {
         wakeUpComment.getComment().updateComment(createCommentDto);
     }
 
+    @Override
+    @Transactional
+    public void getCommentDelete(Long logId, Long commentId, Long userId) {
+        WakeUpComment wakeUpComment = validateWakeUpCommentUserIsOwner(userId, commentId);
+        wakeUpLogDao.deleteWakeUpComment(wakeUpComment.getCommentId());
+    }
+
     private WakeUpComment validateWakeUpCommentUserIsOwner(Long userId, Long commentId) {
         WakeUpComment comment = wakeUpLogDao.getWakeUpComment(commentId);
 

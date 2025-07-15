@@ -65,6 +65,10 @@ public class WakeUpLogDao {
         return wakeUpCommentRepository.findByWakeUpLogWakeUpId(logId, pageable);
     }
 
+    public void deleteWakeUpComment(Long commentId) {
+        wakeUpCommentRepository.deleteById(commentId);
+    }
+
     public WakeUpLog getWakeUpLog(Long wakeUpId){
         return wakeUpLogRepository.findById(wakeUpId)
                 .orElseThrow(() -> new NotFoundException("해당 기상 게시물은 존재하지 않습니다."));

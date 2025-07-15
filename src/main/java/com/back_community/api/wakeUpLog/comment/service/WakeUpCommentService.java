@@ -10,4 +10,6 @@ public interface WakeUpCommentService {
     CommentListResponse getCommentList(Long logId, int page, int size);
 
     void getCommentUpdate(Long userId, Long logId, Long commentId, CreateCommentDto createCommentDto);
+
+    void getCommentDelete(Long logId, Long commentId, Long userId);
 }
