@@ -86,6 +86,13 @@ public class WakeUpLogServiceImpl implements WakeUpLogService {
         return WakeUpLogDetailResponse.of(wakeUpLog, countWakeUpLogLikes);
     }
 
+    @Override
+    @Transactional
+    public void wakeUpLogDelete(Long logId, Long userId) {
+        WakeUpLog wakeUpLog = validateWakeUpUserIsOwner(userId, logId);
+        wakeUpLogDao.deleteWakeUpLog(wakeUpLog.getWakeUpId());
+    }
+
     private void yesterdayWakeUpLogStreak(Long userId, User user) {
         LocalDate yesterday = LocalDate.now().minusDays(1);
         LocalDateTime startOfYesterday = yesterday.atStartOfDay();

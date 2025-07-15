@@ -14,4 +14,6 @@ public interface WakeUpLogService {
     WakeUpLogDetailResponse wakeUpLogDetail(Long logId);
 
     WakeUpLogDetailResponse wakeUpLogUpdate(Long logId, Long userId, CreateWakeUpLogDto createWakeUpLogDto);
+
+    void wakeUpLogDelete(Long logId, Long userId);
 }

@@ -8,6 +8,7 @@ import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogDetai
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
 import com.back_community.api.wakeUpLog.board.service.WakeUpLogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +41,13 @@ public class WakeUpLogController {
                                                                 @AuthenticationPrincipal CustomUserPrincipal userPrincipal,
                                                                 @RequestBody CreateWakeUpLogDto createWakeUpLogDto){
         return ApiResponse.ok(wakeUpLogService.wakeUpLogUpdate(logId, userPrincipal.getUserId(), createWakeUpLogDto));
+    }
+
+    @DeleteMapping("/wake-up-log/{logId}")
+    public ApiResponse<?> wakeUpLogDelete(@PathVariable Long logId,
+                                          @AuthenticationPrincipal CustomUserPrincipal userPrincipal){
+        wakeUpLogService.wakeUpLogDelete(logId, userPrincipal.getUserId());
+        return ApiResponse.of(HttpStatus.OK, "삭제 성공");
     }
 
 }
