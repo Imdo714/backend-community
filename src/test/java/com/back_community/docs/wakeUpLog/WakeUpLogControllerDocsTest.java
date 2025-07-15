@@ -213,4 +213,28 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                 ));
     }
 
+    @DisplayName("기상 게시물 삭제 API 문서화")
+    @Test
+    void wakeUpLogDelete() throws Exception {
+        // given
+        Long logId = 1L;
+
+        // when then
+        mockMvc.perform(delete("/wake-up-log/{logId}", logId))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("wake-up-log-delete",
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("logId").description("기상 게시물 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING).description("응답 상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
+                                fieldWithPath("data").type(JsonFieldType.STRING).description("삭세 성공 메시지")
+                        )
+                ));
+    }
+
 }
