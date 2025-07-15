@@ -1,5 +1,6 @@
 package com.back_community.api.common.embedded.comment;
 
+import com.back_community.api.wakeUpLog.comment.domain.dto.request.CreateCommentDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -21,5 +22,12 @@ public class Comment {
 
     @Column(name = "create_date")
     private LocalDateTime createDate;
+
+    public static Comment builderComment(CreateCommentDto createCommentDto){
+        return Comment.builder()
+                .content(createCommentDto.getContent())
+                .createDate(LocalDateTime.now())
+                .build();
+    }
 
 }
