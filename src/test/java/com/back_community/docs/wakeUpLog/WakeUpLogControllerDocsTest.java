@@ -28,8 +28,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -166,5 +165,52 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                 ));
     }
 
+    @DisplayName("기상 게시물 수정 API 문서화")
+    @Test
+    void wakeUpLogUpdate() throws Exception {
+        // given
+        Long logId = 1L;
+        CreateWakeUpLogDto requestDto = CreateWakeUpLogDto.builder()
+                .title("기상 기록 제목 수정함")
+                .content("기상 내용 수정함")
+                .build();
+
+        WakeUpLogDetailResponse response = WakeUpLogDetailResponse.builder()
+                .title("기상 기록 제목 수정함")
+                .content("기상 내용 수정함")
+                .createDate(LocalDateTime.of(2025, 7, 14, 7, 0))
+                .likesCount(10)
+                .build();
+
+        given(wakeUpLogService.wakeUpLogUpdate(eq(logId), anyLong(), eq(requestDto)))
+                .willReturn(response);
+
+        // when then
+        mockMvc.perform(patch("/wake-up-log/{logId}", logId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("wake-up-log-update",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("logId").description("기상 게시물 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("title").type(JsonFieldType.STRING).description("수정할 기상 제목"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("수정할 기상 내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING).description("응답 상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
+                                fieldWithPath("data.title").type(JsonFieldType.STRING).description("기상 제목"),
+                                fieldWithPath("data.content").type(JsonFieldType.STRING).description("기상 내용"),
+                                fieldWithPath("data.createDate").type(JsonFieldType.ARRAY).description("작성일시"),
+                                fieldWithPath("data.likesCount").type(JsonFieldType.NUMBER).description("좋아요 수")
+                        )
+                ));
+    }
 
 }

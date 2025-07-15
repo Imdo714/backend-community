@@ -15,3 +15,7 @@ endif::[]
 include::api/wakeUpLog/WakupLog.adoc[]
 
 include::api/wakeUpLog/WakeUpLogList.adoc[]
+
+include::api/wakeUpLog/WakeUpLogDetail.adoc[]
+
+include::api/wakeUpLog/WakeUpLogUpdate.adoc[]

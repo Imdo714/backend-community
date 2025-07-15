@@ -1,0 +1,10 @@
+[[wake-up-log-create]]
+=== 기상 게시물 수정
+
+==== HTTP Request
+include::{snippets}/wake-up-log-update/http-request.adoc[]
+include::{snippets}/wake-up-log-update/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/wake-up-log-update/http-response.adoc[]
+include::{snippets}/wake-up-log-update/response-fields.adoc[]
