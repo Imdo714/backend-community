@@ -9,6 +9,10 @@ endif::[]
 :toclevels: 2
 :sectlinks:
 
+[[User-API]]
+== User 생성 API
+include::api/user/UserController.adoc[]
+
 [[WakeUpLog-API]]
 == WakeUpLog 생성 API
 
