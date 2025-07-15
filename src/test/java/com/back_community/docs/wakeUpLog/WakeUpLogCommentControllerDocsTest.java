@@ -26,8 +26,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -121,6 +120,41 @@ public class WakeUpLogCommentControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("data.pageable.totalPages").description("총 페이지 수"),
                                 fieldWithPath("data.pageable.currentPage").description("현재 페이지"),
                                 fieldWithPath("data.pageable.size").description("페이지 사이즈")
+                        )
+                ));
+    }
+
+    @DisplayName("기상 게시물 댓글 수정 API 문서화")
+    @Test
+    void wakeUpCommentUpdate() throws Exception {
+        // given
+        Long logId = 1L;
+        Long commentId = 2L;
+        CreateCommentDto reqDto = new CreateCommentDto("수정함");
+
+        // when then
+        mockMvc.perform(
+                patch("/wake-up-log/{logId}/comment/{commentId}", logId, commentId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(reqDto))
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("wake-up-comment-update",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("logId").description("기상 게시물 ID"),
+                                parameterWithName("commentId").description("댓글 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("수정할 댓글 내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING).description("응답 상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
+                                fieldWithPath("data").type(JsonFieldType.STRING).description("수정 성공 메시지")
                         )
                 ));
     }
