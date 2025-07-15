@@ -26,7 +26,7 @@ include::{snippets}/wake-up-log-list/response-fields.adoc[]
 
 ==== HTTP Request
 include::{snippets}/wake-up-log-detail/http-request.adoc[]
-include::{snippets}/wake-up-log-detail/httpie-request.adoc[]
+include::{snippets}/wake-up-log-detail/path-parameters.adoc[]
 
 ==== HTTP Response
 include::{snippets}/wake-up-log-detail/http-response.adoc[]
@@ -38,6 +38,7 @@ include::{snippets}/wake-up-log-detail/response-fields.adoc[]
 
 ==== HTTP Request
 include::{snippets}/wake-up-log-update/http-request.adoc[]
+include::{snippets}/wake-up-log-update/path-parameters.adoc[]
 include::{snippets}/wake-up-log-update/request-fields.adoc[]
 
 ==== HTTP Response
@@ -50,7 +51,7 @@ include::{snippets}/wake-up-log-update/response-fields.adoc[]
 
 ==== HTTP Request
 include::{snippets}/wake-up-log-delete/http-request.adoc[]
-include::{snippets}/wake-up-log-delete/httpie-request.adoc[]
+include::{snippets}/wake-up-log-delete/path-parameters.adoc[]
 
 ==== HTTP Response
 include::{snippets}/wake-up-log-delete/http-response.adoc[]
