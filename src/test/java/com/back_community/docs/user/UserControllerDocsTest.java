@@ -1,6 +1,7 @@
 package com.back_community.docs.user;
 
 import com.back_community.api.user.controller.UserController;
+import com.back_community.api.user.domain.dto.request.JoinDto;
 import com.back_community.api.user.domain.dto.request.LoginDto;
 import com.back_community.api.user.domain.dto.response.LoginResponse;
 import com.back_community.api.user.service.UserService;
@@ -11,14 +12,11 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -65,4 +63,37 @@ public class UserControllerDocsTest extends RestDocsSupport {
                         )
                 ));
     }
+
+    @DisplayName("회원가입 API 문서화")
+    @Test
+    void join() throws Exception {
+        // given
+        JoinDto joinDto = new JoinDto("test@example.com", "password", "길동이", "KH-77기", "자바 마스터하기");
+
+        // when then
+        mockMvc.perform(post("/join")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(joinDto))
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("user-join",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                                fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
+                                fieldWithPath("userClass").type(JsonFieldType.STRING).description("기수"),
+                                fieldWithPath("userTarget").type(JsonFieldType.STRING).description("목표")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING).description("응답 상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
+                                fieldWithPath("data").type(JsonFieldType.STRING).description("회원가입 성공 메시지")
+                        )
+                ));
+    }
+
 }

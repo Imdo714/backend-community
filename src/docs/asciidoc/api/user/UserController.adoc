@@ -10,3 +10,14 @@ include::{snippets}/user-login/http-response.adoc[]
 include::{snippets}/user-login/response-fields.adoc[]
 
 
+[[user-join]]
+=== 회원가입 요청
+
+==== HTTP Request
+include::{snippets}/user-join/http-request.adoc[]
+include::{snippets}/user-join/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/user-join/http-response.adoc[]
+include::{snippets}/user-join/response-fields.adoc[]
+
