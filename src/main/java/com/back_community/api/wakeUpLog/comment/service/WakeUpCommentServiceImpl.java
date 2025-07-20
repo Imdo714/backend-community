@@ -4,6 +4,7 @@ import com.back_community.api.common.embedded.comment.Comment;
 import com.back_community.api.user.domain.entity.User;
 import com.back_community.api.wakeUpLog.board.domain.entity.WakeUpLog;
 import com.back_community.api.wakeUpLog.comment.domain.dto.request.CreateCommentDto;
+import com.back_community.api.wakeUpLog.comment.domain.dto.request.UpdateCommentDto;
 import com.back_community.api.wakeUpLog.comment.domain.dto.response.CommentListResponse;
 import com.back_community.api.wakeUpLog.comment.domain.entity.WakeUpComment;
 import com.back_community.api.wakeUpLog.dao.WakeUpLogDao;
@@ -42,9 +43,9 @@ public class WakeUpCommentServiceImpl implements WakeUpCommentService {
 
     @Override
     @Transactional
-    public void getCommentUpdate(Long userId, Long logId, Long commentId, CreateCommentDto createCommentDto) {
+    public void getCommentUpdate(Long userId, Long logId, Long commentId, UpdateCommentDto updateCommentDto) {
         WakeUpComment wakeUpComment = validateWakeUpCommentUserIsOwner(userId, commentId);
-        wakeUpComment.getComment().updateComment(createCommentDto);
+        wakeUpComment.getComment().updateComment(updateCommentDto);
     }
 
     @Override

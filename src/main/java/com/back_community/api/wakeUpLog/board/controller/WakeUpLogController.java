@@ -3,10 +3,12 @@ package com.back_community.api.wakeUpLog.board.controller;
 import com.back_community.api.ApiResponse;
 import com.back_community.api.common.authentication.CustomUserPrincipal;
 import com.back_community.api.wakeUpLog.board.domain.dto.request.CreateWakeUpLogDto;
+import com.back_community.api.wakeUpLog.board.domain.dto.request.UpdateWakeUpLogDto;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.CreateWakeUpResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogDetailResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
 import com.back_community.api.wakeUpLog.board.service.WakeUpLogService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +22,7 @@ public class WakeUpLogController {
 
     @PostMapping("/wake-up-log")
     public ApiResponse<CreateWakeUpResponse> createWakeUpLog(@AuthenticationPrincipal CustomUserPrincipal userPrincipal,
-                                                             @RequestBody CreateWakeUpLogDto createWakeUpLogDto){
+                                                             @RequestBody @Valid CreateWakeUpLogDto createWakeUpLogDto){
         return ApiResponse.ok(wakeUpLogService.createWakeUpLog(createWakeUpLogDto, userPrincipal.getUserId()));
     }
 
@@ -39,8 +41,8 @@ public class WakeUpLogController {
     @PatchMapping("/wake-up-log/{logId}")
     public ApiResponse<WakeUpLogDetailResponse> wakeUpLogUpdate(@PathVariable Long logId,
                                                                 @AuthenticationPrincipal CustomUserPrincipal userPrincipal,
-                                                                @RequestBody CreateWakeUpLogDto createWakeUpLogDto){
-        return ApiResponse.ok(wakeUpLogService.wakeUpLogUpdate(logId, userPrincipal.getUserId(), createWakeUpLogDto));
+                                                                @RequestBody UpdateWakeUpLogDto updateWakeUpLogDto){
+        return ApiResponse.ok(wakeUpLogService.wakeUpLogUpdate(logId, userPrincipal.getUserId(), updateWakeUpLogDto));
     }
 
     @DeleteMapping("/wake-up-log/{logId}")

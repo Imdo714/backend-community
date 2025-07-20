@@ -1,6 +1,7 @@
 package com.back_community.api.common.embedded.comment;
 
 import com.back_community.api.wakeUpLog.comment.domain.dto.request.CreateCommentDto;
+import com.back_community.api.wakeUpLog.comment.domain.dto.request.UpdateCommentDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -30,9 +31,9 @@ public class Comment {
                 .build();
     }
 
-    public void updateComment(CreateCommentDto createCommentDto) {
-        if (createCommentDto.getContent() != null) {
-            this.content = createCommentDto.getContent();
+    public void updateComment(UpdateCommentDto updateCommentDto) {
+        if (updateCommentDto.getContent() != null) {
+            this.content = updateCommentDto.getContent();
         }
     }
 }

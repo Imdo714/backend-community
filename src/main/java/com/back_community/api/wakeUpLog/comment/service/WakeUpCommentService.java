@@ -1,6 +1,7 @@
 package com.back_community.api.wakeUpLog.comment.service;
 
 import com.back_community.api.wakeUpLog.comment.domain.dto.request.CreateCommentDto;
+import com.back_community.api.wakeUpLog.comment.domain.dto.request.UpdateCommentDto;
 import com.back_community.api.wakeUpLog.comment.domain.dto.response.CommentListResponse;
 
 public interface WakeUpCommentService {
@@ -9,7 +10,7 @@ public interface WakeUpCommentService {
 
     CommentListResponse getCommentList(Long logId, int page, int size);
 
-    void getCommentUpdate(Long userId, Long logId, Long commentId, CreateCommentDto createCommentDto);
+    void getCommentUpdate(Long userId, Long logId, Long commentId, UpdateCommentDto updateCommentDto);
 
     void getCommentDelete(Long logId, Long commentId, Long userId);
 }

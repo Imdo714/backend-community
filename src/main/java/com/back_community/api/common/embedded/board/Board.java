@@ -1,6 +1,7 @@
 package com.back_community.api.common.embedded.board;
 
 import com.back_community.api.wakeUpLog.board.domain.dto.request.CreateWakeUpLogDto;
+import com.back_community.api.wakeUpLog.board.domain.dto.request.UpdateWakeUpLogDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;
@@ -31,13 +32,13 @@ public class Board {
                 .build();
     }
 
-    public void updateBoard(CreateWakeUpLogDto createWakeUpLogDto) {
-        if (createWakeUpLogDto.getTitle() != null) {
-            this.title = createWakeUpLogDto.getTitle();
+    public void updateBoard(UpdateWakeUpLogDto updateWakeUpLogDto) {
+        if (updateWakeUpLogDto.getTitle() != null) {
+            this.title = updateWakeUpLogDto.getTitle();
         }
 
-        if (createWakeUpLogDto.getContent() != null) {
-            this.content = createWakeUpLogDto.getContent();
+        if (updateWakeUpLogDto.getContent() != null) {
+            this.content = updateWakeUpLogDto.getContent();
         }
     }
 }

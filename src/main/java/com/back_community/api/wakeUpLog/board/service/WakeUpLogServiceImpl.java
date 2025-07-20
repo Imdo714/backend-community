@@ -4,6 +4,7 @@ import com.back_community.api.common.authentication.CustomUserPrincipal;
 import com.back_community.api.common.embedded.board.Board;
 import com.back_community.api.user.domain.entity.User;
 import com.back_community.api.wakeUpLog.board.domain.dto.request.CreateWakeUpLogDto;
+import com.back_community.api.wakeUpLog.board.domain.dto.request.UpdateWakeUpLogDto;
 import com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpLogListDto;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.CreateWakeUpResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogDetailResponse;
@@ -78,11 +79,11 @@ public class WakeUpLogServiceImpl implements WakeUpLogService {
 
     @Override
     @Transactional
-    public WakeUpLogDetailResponse wakeUpLogUpdate(Long logId, Long userId, CreateWakeUpLogDto createWakeUpLogDto) {
+    public WakeUpLogDetailResponse wakeUpLogUpdate(Long logId, Long userId, UpdateWakeUpLogDto updateWakeUpLogDto) {
         WakeUpLog wakeUpLog = validateWakeUpUserIsOwner(userId, logId);
         int countWakeUpLogLikes = wakeUpLogDao.getCountWakeUpLogLikes(logId);
 
-        wakeUpLog.getBoard().updateBoard(createWakeUpLogDto);
+        wakeUpLog.getBoard().updateBoard(updateWakeUpLogDto);
         return WakeUpLogDetailResponse.of(wakeUpLog, countWakeUpLogLikes);
     }
 

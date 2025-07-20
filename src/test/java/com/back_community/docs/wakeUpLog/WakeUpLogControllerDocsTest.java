@@ -5,6 +5,7 @@ import com.back_community.api.common.authentication.CustomUserPrincipal;
 import com.back_community.api.common.page.PageInfo;
 import com.back_community.api.wakeUpLog.board.controller.WakeUpLogController;
 import com.back_community.api.wakeUpLog.board.domain.dto.request.CreateWakeUpLogDto;
+import com.back_community.api.wakeUpLog.board.domain.dto.request.UpdateWakeUpLogDto;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.CreateWakeUpResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogDetailResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
@@ -170,7 +171,7 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
     void wakeUpLogUpdate() throws Exception {
         // given
         Long logId = 1L;
-        CreateWakeUpLogDto requestDto = CreateWakeUpLogDto.builder()
+        UpdateWakeUpLogDto requestDto = UpdateWakeUpLogDto.builder()
                 .title("기상 기록 제목 수정함")
                 .content("기상 내용 수정함")
                 .build();
