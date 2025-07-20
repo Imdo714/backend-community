@@ -5,15 +5,18 @@ import com.back_community.api.user.domain.dto.request.LoginDto;
 import com.back_community.api.user.domain.dto.response.LoginResponse;
 import com.back_community.api.user.domain.entity.User;
 import com.back_community.api.user.repository.UserRepository;
+import com.back_community.global.exception.handleException.DatabaseException;
 import com.back_community.global.exception.handleException.DuplicateEmailException;
 import com.back_community.global.exception.handleException.NotFoundException;
 import com.back_community.global.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -37,7 +40,12 @@ public class UserServiceImpl implements UserService {
         existsByEmail(joinDto);
         User user = User.createUserBuilder(joinDto, bCryptPasswordEncoder.encode(joinDto.getPassword()));
 
-        userRepository.save(user);
+        try{
+            userRepository.save(user);
+        } catch (Exception e){
+            log.error("회원가입 중 실패 : " + e.getMessage());
+            throw new DatabaseException("DB 오류 발생했습니다.");
+        }
     }
 
     public User findEmailUser(String email) {

@@ -5,6 +5,7 @@ import com.back_community.api.user.domain.dto.request.JoinDto;
 import com.back_community.api.user.domain.dto.request.LoginDto;
 import com.back_community.api.user.domain.dto.response.LoginResponse;
 import com.back_community.api.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public ApiResponse<String> join(@RequestBody JoinDto joinDto) {
+    public ApiResponse<String> join(@RequestBody @Valid JoinDto joinDto) {
         userService.join(joinDto);
         return ApiResponse.ok("회원 가입 성공");
     }

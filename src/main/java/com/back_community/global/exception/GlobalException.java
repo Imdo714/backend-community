@@ -7,8 +7,12 @@ import com.back_community.global.exception.handleException.NotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Comparator;
 
 @Slf4j
 @RestControllerAdvice
@@ -22,14 +26,28 @@ public class GlobalException {
 
     @ExceptionHandler(DuplicateEmailException.class)
     public ApiResponse<Object> handleDuplicateEmailException(DuplicateEmailException e, HttpServletResponse response) {
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
-        return ApiResponse.of(HttpStatus.BAD_REQUEST, e.getMessage(), null);
+        response.setStatus(HttpStatus.CONFLICT.value());
+        return ApiResponse.of(HttpStatus.CONFLICT, e.getMessage(), null);
     }
 
     @ExceptionHandler(MismatchException.class)
     public ApiResponse<Object> handleMismatchException(MismatchException e, HttpServletResponse response) {
         response.setStatus(HttpStatus.FORBIDDEN.value());
         return ApiResponse.of(HttpStatus.FORBIDDEN, e.getMessage(), null);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ApiResponse<Object> handleValidationExceptions(MethodArgumentNotValidException e, HttpServletResponse response) {
+        String errorMessage = e.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .sorted(Comparator.comparing(fieldError -> fieldError.getCode().equals("NotNull") ? 0 : 1))
+                .findFirst()
+                .map(FieldError::getDefaultMessage)
+                .orElse("잘못된 요청입니다.");
+
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        return ApiResponse.of(HttpStatus.BAD_REQUEST, errorMessage, null);
     }
 
 }
