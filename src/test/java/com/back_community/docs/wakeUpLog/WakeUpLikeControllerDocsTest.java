@@ -29,7 +29,7 @@ public class WakeUpLikeControllerDocsTest extends RestDocsSupport {
         return new WakeUpLikeController(wakeUpLikeService);
     }
 
-    @DisplayName("기상 게시물 댓글 작성 API 문서화")
+    @DisplayName("기상 게시물 좋아요 등록 API 문서화")
     @Test
     void createComment() throws Exception {
         // given
@@ -53,7 +53,7 @@ public class WakeUpLikeControllerDocsTest extends RestDocsSupport {
                 ));
     }
 
-    @DisplayName("기상 게시물 댓글 삭제 API 문서화")
+    @DisplayName("기상 게시물 좋아요 취소 API 문서화")
     @Test
     void wakeUpCommentDelete() throws Exception {
         // given

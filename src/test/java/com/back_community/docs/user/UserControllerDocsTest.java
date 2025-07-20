@@ -52,8 +52,8 @@ public class UserControllerDocsTest extends RestDocsSupport {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                                fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
+                                fieldWithPath("email").type(JsonFieldType.STRING).optional().description("이메일"),
+                                fieldWithPath("password").type(JsonFieldType.STRING).optional().description("비밀번호")
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
@@ -81,9 +81,9 @@ public class UserControllerDocsTest extends RestDocsSupport {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                                fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
+                                fieldWithPath("email").type(JsonFieldType.STRING).optional().description("이메일"),
+                                fieldWithPath("password").type(JsonFieldType.STRING).optional().description("비밀번호"),
+                                fieldWithPath("name").type(JsonFieldType.STRING).optional().description("이름"),
                                 fieldWithPath("userClass").type(JsonFieldType.STRING).description("기수"),
                                 fieldWithPath("userTarget").type(JsonFieldType.STRING).description("목표")
                         ),

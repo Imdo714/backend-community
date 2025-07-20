@@ -67,8 +67,8 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                         preprocessRequest(prettyPrint()), // JSON 이쁘게 나옴
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("title").type(JsonFieldType.STRING).description("게시물 제목"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("게시물 내용")
+                                fieldWithPath("title").type(JsonFieldType.STRING).optional().description("게시물 제목"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).optional().description("게시물 내용")
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
@@ -183,7 +183,7 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                 .likesCount(10)
                 .build();
 
-        given(wakeUpLogService.wakeUpLogUpdate(eq(logId), anyLong(), eq(requestDto)))
+        given(wakeUpLogService.wakeUpLogUpdate(eq(logId), anyLong(), any(UpdateWakeUpLogDto.class)))
                 .willReturn(response);
 
         // when then

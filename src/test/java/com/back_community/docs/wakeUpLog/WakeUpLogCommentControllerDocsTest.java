@@ -5,6 +5,7 @@ import com.back_community.api.common.page.PageInfo;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
 import com.back_community.api.wakeUpLog.comment.controller.WakeUpCommentController;
 import com.back_community.api.wakeUpLog.comment.domain.dto.request.CreateCommentDto;
+import com.back_community.api.wakeUpLog.comment.domain.dto.request.UpdateCommentDto;
 import com.back_community.api.wakeUpLog.comment.domain.dto.response.CommentListResponse;
 import com.back_community.api.wakeUpLog.comment.service.WakeUpCommentService;
 import com.back_community.docs.RestDocsSupport;
@@ -59,7 +60,7 @@ public class WakeUpLogCommentControllerDocsTest extends RestDocsSupport {
                                 parameterWithName("logId").description("기상 게시물 ID")
                         ),
                         requestFields(
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용")
+                                fieldWithPath("content").type(JsonFieldType.STRING).optional().description("댓글 내용")
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
@@ -70,7 +71,7 @@ public class WakeUpLogCommentControllerDocsTest extends RestDocsSupport {
                 ));
     }
 
-    @DisplayName("기상 게시물 댓글 리스트 API 문서화")
+    @DisplayName("기상 게시물 댓글 리스트 조회 API 문서화")
     @Test
     void wakeUpCommentList() throws Exception {
         // given
@@ -130,7 +131,7 @@ public class WakeUpLogCommentControllerDocsTest extends RestDocsSupport {
         // given
         Long logId = 1L;
         Long commentId = 2L;
-        CreateCommentDto reqDto = new CreateCommentDto("수정함");
+        UpdateCommentDto reqDto = UpdateCommentDto.builder().content("수정할 댓글 내용").build();
 
         // when then
         mockMvc.perform(
