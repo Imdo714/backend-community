@@ -36,7 +36,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/login", "/join", "/docs/**", "index.html", "/test").permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(corsConfig.corsFitter(), ChannelProcessingFilter.class) // ChannelProcessingFilter 실행 전에 CORS 부터 검증
+                .addFilterBefore(corsConfig.corsFilter(), ChannelProcessingFilter.class) // ChannelProcessingFilter 실행 전에 CORS 부터 검증
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

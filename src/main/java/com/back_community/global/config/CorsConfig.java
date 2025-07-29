@@ -12,13 +12,13 @@ import java.util.Arrays;
 public class CorsConfig {
 
     @Bean
-    public CorsFilter corsFitter(){
+    public CorsFilter corsFilter(){
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
 
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://localhost:3000"));
+        config.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://localhost:3000", "http://localhost:5173", "https://localhost:5173"));
 
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");

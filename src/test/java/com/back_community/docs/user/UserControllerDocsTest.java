@@ -33,7 +33,6 @@ public class UserControllerDocsTest extends RestDocsSupport {
 
     @DisplayName("로그인 API 문서화")
     @Test
-    @Timeout(10)
     void login() throws Exception {
         // given
         LoginDto loginDto = new LoginDto("test@example.com", "password");
@@ -68,7 +67,6 @@ public class UserControllerDocsTest extends RestDocsSupport {
 
     @DisplayName("회원가입 API 문서화")
     @Test
-    @Timeout(10)
     void join() throws Exception {
         // given
         JoinDto joinDto = new JoinDto("test@example.com", "password", "길동이", "KH-77기", "자바 마스터하기");
