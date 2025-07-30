@@ -4,6 +4,7 @@ import com.back_community.api.studyGroup.group.domain.entity.StudyGroup;
 import com.back_community.api.studyGroup.groupRequest.domain.entity.GroupRequest;
 import com.back_community.api.studyLog.board.domain.entity.StudyLog;
 import com.back_community.api.user.domain.dto.request.JoinDto;
+import com.back_community.api.user.domain.dto.request.KakaoUserDto;
 import com.back_community.api.wakeUpLog.board.domain.entity.WakeUpLog;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -79,6 +80,15 @@ public class User {
                 .name(joinDto.getName())
                 .userClass(joinDto.getUserClass())
                 .userTarget(joinDto.getUserTarget())
+                .createDate(LocalDate.now())
+                .build();
+    }
+
+    public static User createKakaoUserBuilder(KakaoUserDto kakaoUser, String password){
+        return User.builder()
+                .email(kakaoUser.getEmail())
+                .password(password)
+                .name(kakaoUser.getNickname())
                 .createDate(LocalDate.now())
                 .build();
     }

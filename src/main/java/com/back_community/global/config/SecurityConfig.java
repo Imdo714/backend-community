@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/wake-up-log").permitAll()
-                        .requestMatchers("/", "/login", "/join", "/docs/**", "index.html", "/test").permitAll()
+                        .requestMatchers("/", "/login", "/join", "/docs/**", "index.html", "/kakao/login").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(corsConfig.corsFilter(), ChannelProcessingFilter.class) // ChannelProcessingFilter 실행 전에 CORS 부터 검증

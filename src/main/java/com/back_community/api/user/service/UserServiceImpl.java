@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
         matchPassword(loginDto, user);
 
         return LoginResponse.builder()
-                .refreshToken(jwtTokenProvider.createToken(loginDto.getEmail(), user.getUserId()))
+                .accessToken(jwtTokenProvider.createToken(loginDto.getEmail(), user.getUserId()))
                 .build();
     }
 

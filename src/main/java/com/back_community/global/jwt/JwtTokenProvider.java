@@ -20,8 +20,8 @@ public class JwtTokenProvider {
     @Value("${JWT_VALIDITY_SECONDS}")
     private long validityInMilliseconds;
 
-    public String createToken(String username, Long userId) {
-        Claims claims = Jwts.claims().setSubject(username);
+    public String createToken(String email, Long userId) {
+        Claims claims = Jwts.claims().setSubject(email);
         claims.put("userId", userId);
 
         Date now = new Date();

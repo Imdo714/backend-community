@@ -5,6 +5,7 @@ import com.back_community.api.user.domain.dto.request.JoinDto;
 import com.back_community.api.user.domain.dto.request.LoginDto;
 import com.back_community.api.user.domain.dto.response.LoginResponse;
 import com.back_community.api.user.service.UserService;
+import com.back_community.api.user.service.socialLogin.SocialLoginService;
 import com.back_community.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,10 +26,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerDocsTest extends RestDocsSupport {
 
     private final UserService userService = mock(UserService.class);
+    private final SocialLoginService socialLoginService = mock(SocialLoginService.class);
 
     @Override
     protected Object initController() {
-        return new UserController(userService);
+        return new UserController(userService, socialLoginService);
     }
 
     @DisplayName("로그인 API 문서화")
@@ -37,7 +39,7 @@ public class UserControllerDocsTest extends RestDocsSupport {
         // given
         LoginDto loginDto = new LoginDto("test@example.com", "password");
 
-        LoginResponse response = LoginResponse.builder().refreshToken("refreshToken 입니다.").build();
+        LoginResponse response = LoginResponse.builder().accessToken("refreshToken 입니다.").build();
 
         given(userService.loginAndGenerateToken(any(LoginDto.class)))
                 .willReturn(response);
