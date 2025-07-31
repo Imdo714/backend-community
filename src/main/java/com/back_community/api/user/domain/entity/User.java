@@ -12,10 +12,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -89,6 +91,15 @@ public class User {
                 .email(kakaoUser.getEmail())
                 .password(password)
                 .name(kakaoUser.getNickname())
+                .createDate(LocalDate.now())
+                .build();
+    }
+
+    public static User createGoogleUserBuilder(OAuth2User oAuth2User, String password){
+        return User.builder()
+                .email(oAuth2User.getAttribute("email"))
+                .password(password)
+                .name(oAuth2User.getAttribute("name"))
                 .createDate(LocalDate.now())
                 .build();
     }
