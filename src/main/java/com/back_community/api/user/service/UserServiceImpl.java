@@ -1,5 +1,6 @@
 package com.back_community.api.user.service;
 
+import com.back_community.api.common.util.PasswordEncoderUtil;
 import com.back_community.api.user.domain.dto.request.JoinDto;
 import com.back_community.api.user.domain.dto.request.LoginDto;
 import com.back_community.api.user.domain.dto.response.LoginResponse;
@@ -11,7 +12,6 @@ import com.back_community.global.exception.handleException.NotFoundException;
 import com.back_community.global.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,7 +23,6 @@ public class UserServiceImpl implements UserService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public LoginResponse loginAndGenerateToken(LoginDto loginDto) {
@@ -38,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void join(JoinDto joinDto) {
         existsByEmail(joinDto);
-        User user = User.createUserBuilder(joinDto, bCryptPasswordEncoder.encode(joinDto.getPassword()));
+        User user = User.createUserBuilder(joinDto, PasswordEncoderUtil.encode(joinDto.getPassword()));
 
         try{
             userRepository.save(user);
@@ -54,7 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void matchPassword(LoginDto loginDto, User user) {
-        if (!user.isPasswordMatch(loginDto.getPassword(), bCryptPasswordEncoder)) {
+        if (!user.isPasswordMatch(loginDto.getPassword())) {
             throw new NotFoundException("비밀번호가 일치하지 않습니다.");
         }
     }

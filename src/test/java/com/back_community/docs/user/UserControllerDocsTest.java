@@ -5,11 +5,10 @@ import com.back_community.api.user.domain.dto.request.JoinDto;
 import com.back_community.api.user.domain.dto.request.LoginDto;
 import com.back_community.api.user.domain.dto.response.LoginResponse;
 import com.back_community.api.user.service.UserService;
-import com.back_community.api.user.service.socialLogin.SocialLoginService;
+import com.back_community.api.user.service.socialLogin.kakao.KakaoSocialLoginService;
 import com.back_community.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
@@ -26,11 +25,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerDocsTest extends RestDocsSupport {
 
     private final UserService userService = mock(UserService.class);
-    private final SocialLoginService socialLoginService = mock(SocialLoginService.class);
+    private final KakaoSocialLoginService kakaoSocialLoginService = mock(KakaoSocialLoginService.class);
 
     @Override
     protected Object initController() {
-        return new UserController(userService, socialLoginService);
+        return new UserController(userService, kakaoSocialLoginService);
     }
 
     @DisplayName("로그인 API 문서화")

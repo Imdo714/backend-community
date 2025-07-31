@@ -1,5 +1,6 @@
 package com.back_community.api.user.domain.entity;
 
+import com.back_community.api.common.util.PasswordEncoderUtil;
 import com.back_community.api.studyGroup.group.domain.entity.StudyGroup;
 import com.back_community.api.studyGroup.groupRequest.domain.entity.GroupRequest;
 import com.back_community.api.studyLog.board.domain.entity.StudyLog;
@@ -11,7 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.time.LocalDate;
@@ -104,8 +104,8 @@ public class User {
                 .build();
     }
 
-    public boolean isPasswordMatch(String rawPassword, PasswordEncoder encoder) {
-        return encoder.matches(rawPassword, this.password);
+    public boolean isPasswordMatch(String rawPassword) {
+        return PasswordEncoderUtil.matches(rawPassword, this.password);
     }
 
     public void wakeUpStreakUpdate(Boolean wroteYesterday){

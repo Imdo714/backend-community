@@ -1,5 +1,6 @@
-package com.back_community.api.user.service.socialLogin;
+package com.back_community.api.user.service.socialLogin.kakao;
 
+import com.back_community.api.common.util.PasswordEncoderUtil;
 import com.back_community.api.user.domain.dto.request.AccessTokenDto;
 import com.back_community.api.user.domain.dto.request.KakaoUserDto;
 import com.back_community.api.user.domain.dto.response.KakaoUserResponse;
@@ -10,7 +11,6 @@ import com.back_community.global.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -20,11 +20,10 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class SocialLoginServiceImpl implements SocialLoginService {
+public class KakaoSocialLoginServiceImpl implements KakaoSocialLoginService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Value("${CLIENT_ID}")
     private String client_id;
@@ -83,7 +82,7 @@ public class SocialLoginServiceImpl implements SocialLoginService {
     public User registerOrLogin(KakaoUserDto kakaoUser) {
         User user = userRepository.findByEmail(kakaoUser.getEmail())
                 .orElseGet(() -> {
-                    User newUser = User.createKakaoUserBuilder(kakaoUser, bCryptPasswordEncoder.encode(UUID.randomUUID().toString()));
+                    User newUser = User.createKakaoUserBuilder(kakaoUser, PasswordEncoderUtil.encode(UUID.randomUUID().toString()));
                     return userRepository.save(newUser);
                 });
         return user;
