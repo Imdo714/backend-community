@@ -120,6 +120,8 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
 
                                 fieldWithPath("data.wakeUpLists").type(JsonFieldType.ARRAY).description("기상 기록 리스트"),
                                 fieldWithPath("data.wakeUpLists[0].wakeUpId").type(JsonFieldType.NUMBER).description("기상 기록 ID"),
+                                fieldWithPath("data.wakeUpLists[0].userName").type(JsonFieldType.STRING).description("작성자 이름"),
+                                fieldWithPath("data.wakeUpLists[0].imageUrl").type(JsonFieldType.STRING).description("작성자 프로필"),
                                 fieldWithPath("data.wakeUpLists[0].title").type(JsonFieldType.STRING).description("기상 제목"),
                                 fieldWithPath("data.wakeUpLists[0].createDate").type(JsonFieldType.ARRAY).description("기록 생성일"),
                                 fieldWithPath("data.wakeUpLists[0].likeCount").type(JsonFieldType.BOOLEAN).description("좋아요 수"),

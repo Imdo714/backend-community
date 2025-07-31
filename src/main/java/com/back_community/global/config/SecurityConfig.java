@@ -8,10 +8,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static com.back_community.global.config.SecurityWhiteList.PUBLIC_GET_URLS;
+import static com.back_community.global.config.SecurityWhiteList.PUBLIC_URLS;
 
 @Configuration
 @EnableWebSecurity
@@ -34,8 +36,8 @@ public class SecurityConfig {
                 .formLogin(form -> form.disable())
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/wake-up-log").permitAll()
-                        .requestMatchers("/", "/login", "/join", "/docs/**", "index.html", "/kakao/login", "/login/oauth2/code/google", "/oauth2/authorization/google").permitAll()
+                                .requestMatchers(HttpMethod.GET, PUBLIC_GET_URLS).permitAll()
+                                .requestMatchers(PUBLIC_URLS).permitAll()
                         .anyRequest().authenticated()
                 )
 
