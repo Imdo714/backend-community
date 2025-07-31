@@ -24,7 +24,6 @@ public class GoogleSocialLoginServiceImpl implements GoogleSocialLoginService {
     public User googleRegisterOrLogin(OAuth2User oAuth2User) {
         User user = userRepository.findByEmail(oAuth2User.getAttribute("email"))
                 .orElseGet(() -> {
-//                    User newUser = User.createGoogleUserBuilder(oAuth2User, bCryptPasswordEncoder.encode(oAuth2User.getAttribute("sub")));
                     User newUser = User.createGoogleUserBuilder(oAuth2User, PasswordEncoderUtil.encode(oAuth2User.getAttribute("sub")));
                     return userRepository.save(newUser);
                 });

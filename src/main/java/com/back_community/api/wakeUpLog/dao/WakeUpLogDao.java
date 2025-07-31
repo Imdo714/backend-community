@@ -2,7 +2,7 @@ package com.back_community.api.wakeUpLog.dao;
 
 import com.back_community.api.user.domain.entity.User;
 import com.back_community.api.user.repository.UserRepository;
-import com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpLogListDto;
+import com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpListDto;
 import com.back_community.api.wakeUpLog.board.domain.entity.WakeUpLog;
 import com.back_community.api.wakeUpLog.board.repository.WakeUpLogRepository;
 import com.back_community.api.wakeUpLog.comment.domain.entity.WakeUpComment;
@@ -20,7 +20,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -40,13 +39,9 @@ public class WakeUpLogDao {
         return wakeUpLogRepository.yesterdayByUserIdAndDate(userId, startOfYesterday, startOfToday);
     }
 
-    public Page<WakeUpLogListDto> getWakeUpLogList(int page, int size){
+    public Page<WakeUpListDto> getWakeUpLogList(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return wakeUpLogRepository.findWakeUpLogs(pageable);
-    }
-
-    public List<Long> findLikedLogIdsByUserId(Long userId, List<Long> wakeUpIds){
-        return wakeUpLogRepository.findLikedLogIdsByUserId(userId, wakeUpIds);
     }
 
     public int getCountWakeUpLogLikes(Long logId) {

@@ -27,10 +27,9 @@ public class WakeUpLogController {
     }
 
     @GetMapping("/wake-up-log")
-    public ApiResponse<WakeUpLogListResponse> wakeUpLogList(@AuthenticationPrincipal CustomUserPrincipal userPrincipal,
-                                                            @RequestParam(defaultValue = "0") int page,
-                                                            @RequestParam(defaultValue = "5") int size){
-        return ApiResponse.ok(wakeUpLogService.getWakeUpLogList(userPrincipal, page, size));
+    public ApiResponse<WakeUpLogListResponse> wakeUpLogList(@RequestParam(defaultValue = "0") int page,
+                                              @RequestParam(defaultValue = "5") int size){
+        return ApiResponse.ok(wakeUpLogService.getWakeUpLogList(page, size));
     }
 
     @GetMapping("/wake-up-log/{logId}")

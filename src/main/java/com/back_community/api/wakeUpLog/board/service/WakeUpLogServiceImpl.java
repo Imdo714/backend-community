@@ -1,11 +1,9 @@
 package com.back_community.api.wakeUpLog.board.service;
 
-import com.back_community.api.common.authentication.CustomUserPrincipal;
 import com.back_community.api.common.embedded.board.Board;
+import com.back_community.api.common.page.PageInfo;
 import com.back_community.api.user.domain.entity.User;
-import com.back_community.api.wakeUpLog.board.domain.dto.request.CreateWakeUpLogDto;
-import com.back_community.api.wakeUpLog.board.domain.dto.request.UpdateWakeUpLogDto;
-import com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpLogListDto;
+import com.back_community.api.wakeUpLog.board.domain.dto.request.*;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.CreateWakeUpResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogDetailResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
@@ -20,9 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -52,21 +48,16 @@ public class WakeUpLogServiceImpl implements WakeUpLogService {
     }
 
     @Override
-    public WakeUpLogListResponse getWakeUpLogList(CustomUserPrincipal userPrincipal, int page, int size) {
-        Page<WakeUpLogListDto> wakeUpLogList = wakeUpLogDao.getWakeUpLogList(page, size);
-        List<Long> likedIds;
+    public WakeUpLogListResponse getWakeUpLogList(int page, int size) {
+        Page<WakeUpListDto> wakeUpLogList2 = wakeUpLogDao.getWakeUpLogList(page, size);
 
-        if(userPrincipal != null){
-            List<Long> wakeUpIds = wakeUpLogList.getContent().stream()
-                    .map(WakeUpLogListDto::getWakeUpId)
-                    .collect(Collectors.toList());
+        List<WakeUpListDto> list = wakeUpLogList2.getContent();
+        PageInfo pageInfo = PageInfo.pageBuilder(wakeUpLogList2);
 
-            likedIds = wakeUpLogDao.findLikedLogIdsByUserId(userPrincipal.getUserId(), wakeUpIds);
-        } else {
-            likedIds = Collections.emptyList();
-        }
-
-        return WakeUpLogListResponse.wakeUpListPage(wakeUpLogList, likedIds);
+        return WakeUpLogListResponse.builder()
+                .wakeUpLists(list)
+                .pageable(pageInfo)
+                .build();
     }
 
     @Override

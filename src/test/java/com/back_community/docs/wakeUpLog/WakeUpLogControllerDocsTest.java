@@ -6,6 +6,7 @@ import com.back_community.api.common.page.PageInfo;
 import com.back_community.api.wakeUpLog.board.controller.WakeUpLogController;
 import com.back_community.api.wakeUpLog.board.domain.dto.request.CreateWakeUpLogDto;
 import com.back_community.api.wakeUpLog.board.domain.dto.request.UpdateWakeUpLogDto;
+import com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpListDto;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.CreateWakeUpResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogDetailResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
@@ -85,11 +86,12 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
     @Test
     void wakeUpLogList() throws Exception {
         // given
-        WakeUpLogListResponse.WakeUpList wakeUpList = WakeUpLogListResponse.WakeUpList.builder()
+        WakeUpListDto wakeUpList = WakeUpListDto.builder()
                 .wakeUpId(1L)
                 .title("기상 기록")
                 .createDate(LocalDateTime.now())
-                .isLike(true)
+                .likeCount(1L)
+                .commentCount(4L)
                 .build();
 
         PageInfo pageInfo = new PageInfo(0, 5, 1, 5);
@@ -99,7 +101,7 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                 .pageable(pageInfo)
                 .build();
 
-        given(wakeUpLogService.getWakeUpLogList(any(), eq(0), eq(5))).willReturn(response);
+        given(wakeUpLogService.getWakeUpLogList(eq(0), eq(5))).willReturn(response);
 
         // when & then
         mockMvc.perform(get("/wake-up-log")
@@ -120,7 +122,8 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("data.wakeUpLists[0].wakeUpId").type(JsonFieldType.NUMBER).description("기상 기록 ID"),
                                 fieldWithPath("data.wakeUpLists[0].title").type(JsonFieldType.STRING).description("기상 제목"),
                                 fieldWithPath("data.wakeUpLists[0].createDate").type(JsonFieldType.ARRAY).description("기록 생성일"),
-                                fieldWithPath("data.wakeUpLists[0].like").type(JsonFieldType.BOOLEAN).description("좋아요 여부"),
+                                fieldWithPath("data.wakeUpLists[0].likeCount").type(JsonFieldType.BOOLEAN).description("좋아요 수"),
+                                fieldWithPath("data.wakeUpLists[0].commentCount").type(JsonFieldType.BOOLEAN).description("댓글 수"),
 
                                 fieldWithPath("data.pageable.totalElements").description("총 요소 수"),
                                 fieldWithPath("data.pageable.totalPages").description("총 페이지 수"),

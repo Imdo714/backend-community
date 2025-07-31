@@ -1,6 +1,8 @@
 package com.back_community.api.wakeUpLog.board.repository;
 
+import com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpListDto;
 import com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpLogListDto;
+import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
 import com.back_community.api.wakeUpLog.board.domain.entity.WakeUpLog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,10 +21,12 @@ public interface WakeUpLogRepository extends JpaRepository<WakeUpLog, Long> {
     @Query("SELECT COUNT(w) > 0 FROM WakeUpLog w WHERE w.user.userId = :userId AND w.board.createDate >= :startOfYesterday AND w.board.createDate < :startOfToday")
     Boolean yesterdayByUserIdAndDate(Long userId, LocalDateTime startOfYesterday, LocalDateTime startOfToday);
 
-    @Query("SELECT new com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpLogListDto(w.wakeUpId, w.board.title, w.board.createDate) FROM WakeUpLog w ORDER BY w.wakeUpId DESC")
-    Page<WakeUpLogListDto> findWakeUpLogs(Pageable pageable);
-
-    @Query("SELECT w.wakeUpLog.wakeUpId FROM WakeUpLike w WHERE w.user.userId = :userId AND w.wakeUpLog.wakeUpId IN :wakeUpLogIds")
-    List<Long> findLikedLogIdsByUserId(@Param("userId") Long userId, @Param("wakeUpLogIds") List<Long> wakeUpLogIds);
+    @Query("SELECT new com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpListDto(w.wakeUpId, w.user.name, w.user.imageUrl, w.board.title, w.board.createDate, COUNT(DISTINCT wl), COUNT(DISTINCT wc)) " +
+            "FROM WakeUpLog w JOIN w.user u " +
+            "LEFT JOIN WakeUpLike wl ON w.wakeUpId = wl.wakeUpLog.wakeUpId " +
+            "LEFT JOIN WakeUpComment wc ON w.wakeUpId = wc.wakeUpLog.wakeUpId " +
+            "GROUP BY w.wakeUpId, u.name, u.imageUrl, w.board.title, w.board.createDate " +
+            "ORDER BY w.wakeUpId DESC")
+    Page<WakeUpListDto> findWakeUpLogs(Pageable pageable);
 
 }

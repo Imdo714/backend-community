@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 public class WakeUpLogListDto {
 
     Long wakeUpId;
+    String userName;
+    String imageUrl;
     String title;
     LocalDateTime createDate;
 
