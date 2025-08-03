@@ -88,6 +88,8 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
         // given
         WakeUpListDto wakeUpList = WakeUpListDto.builder()
                 .wakeUpId(1L)
+                .userName("홍길동")
+                .imageUrl("https://imageUrl")
                 .title("기상 기록")
                 .createDate(LocalDateTime.now())
                 .likeCount(1L)
@@ -124,8 +126,8 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("data.wakeUpLists[0].imageUrl").type(JsonFieldType.STRING).description("작성자 프로필"),
                                 fieldWithPath("data.wakeUpLists[0].title").type(JsonFieldType.STRING).description("기상 제목"),
                                 fieldWithPath("data.wakeUpLists[0].createDate").type(JsonFieldType.ARRAY).description("기록 생성일"),
-                                fieldWithPath("data.wakeUpLists[0].likeCount").type(JsonFieldType.BOOLEAN).description("좋아요 수"),
-                                fieldWithPath("data.wakeUpLists[0].commentCount").type(JsonFieldType.BOOLEAN).description("댓글 수"),
+                                fieldWithPath("data.wakeUpLists[0].likeCount").type(JsonFieldType.NUMBER).description("좋아요 수"),
+                                fieldWithPath("data.wakeUpLists[0].commentCount").type(JsonFieldType.NUMBER).description("댓글 수"),
 
                                 fieldWithPath("data.pageable.totalElements").description("총 요소 수"),
                                 fieldWithPath("data.pageable.totalPages").description("총 페이지 수"),
