@@ -1,5 +1,6 @@
 package com.back_community.api.user.domain.entity;
 
+import com.back_community.api.common.util.BasicImageConstants;
 import com.back_community.api.common.util.PasswordEncoderUtil;
 import com.back_community.api.studyGroup.group.domain.entity.StudyGroup;
 import com.back_community.api.studyGroup.groupRequest.domain.entity.GroupRequest;
@@ -79,6 +80,7 @@ public class User {
         return User.builder()
                 .email(joinDto.getEmail())
                 .password(encodedPassword)
+                .imageUrl(BasicImageConstants.PROFILE)
                 .name(joinDto.getName())
                 .userClass(joinDto.getUserClass())
                 .userTarget(joinDto.getUserTarget())
@@ -90,6 +92,7 @@ public class User {
         return User.builder()
                 .email(kakaoUser.getEmail())
                 .password(password)
+                .imageUrl(BasicImageConstants.PROFILE)
                 .name(kakaoUser.getNickname())
                 .createDate(LocalDate.now())
                 .build();
@@ -100,6 +103,7 @@ public class User {
                 .email(oAuth2User.getAttribute("email"))
                 .password(password)
                 .name(oAuth2User.getAttribute("name"))
+                .imageUrl(BasicImageConstants.PROFILE)
                 .createDate(LocalDate.now())
                 .build();
     }
