@@ -4,6 +4,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -14,6 +15,9 @@ import java.io.IOException;
 @Slf4j
 @Service
 public class GoogleOAuth2UserService extends SimpleUrlAuthenticationSuccessHandler {
+
+    @Value("${FRONT_DOMAIN}")
+    private String frontDomain;
 
     private final GoogleSocialLoginService googleSocialLoginService;
 
@@ -30,6 +34,6 @@ public class GoogleOAuth2UserService extends SimpleUrlAuthenticationSuccessHandl
         Cookie jwtCookie = new Cookie("token", accessToken);
         jwtCookie.setPath("/"); //모든 경로에서 쿠키 사용가능
         response.addCookie(jwtCookie);
-        response.sendRedirect("http://localhost:5173");
+        response.sendRedirect(frontDomain);
     }
 }

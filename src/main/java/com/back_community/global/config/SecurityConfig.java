@@ -1,6 +1,8 @@
 package com.back_community.global.config;
 
 import com.back_community.api.user.service.socialLogin.google.GoogleOAuth2UserService;
+import com.back_community.global.config.oauth.CustomAuthenticationEntryPoint;
+import com.back_community.global.config.oauth.CustomOAuth2FailureHandler;
 import com.back_community.global.jwt.JwtAuthenticationFilter;
 import com.back_community.global.jwt.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
@@ -41,11 +43,13 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
-                .formLogin(form -> form.permitAll()
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint()) // 추가
                 )
 
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(successHandler)
+                        .failureHandler(new CustomOAuth2FailureHandler())
                 )
 
                 .addFilterBefore(corsConfig.corsFilter(), ChannelProcessingFilter.class) // ChannelProcessingFilter 실행 전에 CORS 부터 검증
