@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
 
         return LoginResponse.builder()
                 .accessToken(jwtTokenProvider.createToken(loginDto.getEmail(), user.getUserId()))
+                .userName(user.getName())
                 .build();
     }
 
