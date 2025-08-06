@@ -39,10 +39,11 @@ public class WakeUpLog {
     @OneToMany(mappedBy = "wakeUpLog", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<WakeUpLike> likes = new ArrayList<>();
 
-    public static WakeUpLog builderWakeUpLog(User user, Board board){
+    public static WakeUpLog builderWakeUpLog(User user, Board board, String imageUpload){
         return WakeUpLog.builder()
                 .user(user)
                 .board(board)
+                .imageUrl(imageUpload)
                 .build();
     }
 

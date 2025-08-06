@@ -5,9 +5,10 @@ import com.back_community.api.wakeUpLog.board.domain.dto.request.UpdateWakeUpLog
 import com.back_community.api.wakeUpLog.board.domain.dto.response.CreateWakeUpResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogDetailResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface WakeUpLogService {
-    CreateWakeUpResponse createWakeUpLog(CreateWakeUpLogDto createWakeUpLogDto, Long userId);
+    CreateWakeUpResponse createWakeUpLog(CreateWakeUpLogDto createWakeUpLogDto, MultipartFile image, Long userId);
 
     WakeUpLogListResponse getWakeUpLogList(int page, int size);
 

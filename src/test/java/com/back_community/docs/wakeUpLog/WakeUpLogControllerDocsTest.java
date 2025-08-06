@@ -15,7 +15,9 @@ import com.back_community.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,8 +29,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -54,22 +55,34 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
 
         CreateWakeUpResponse responseDto = CreateWakeUpResponse.createWakeUpSuccess(1L, 2);
 
-        given(wakeUpLogService.createWakeUpLog(any(CreateWakeUpLogDto.class), anyLong()))
+        given(wakeUpLogService.createWakeUpLog(any(CreateWakeUpLogDto.class), any(MultipartFile.class), anyLong()))
                 .willReturn(responseDto);
 
-        // when & then
-        mockMvc.perform(post("/wake-up-log")
+        MockMultipartFile imageFile = new MockMultipartFile(
+                "image",
+                "test-image.jpg",
+                MediaType.IMAGE_JPEG_VALUE,
+                "fake-image-content".getBytes()
+        );
+
+        mockMvc.perform(multipart("/wake-up-log")
+                        .file(imageFile)
+                        .param("title", requestDto.getTitle())
+                        .param("content", requestDto.getContent())
                         .with(user(new CustomUserPrincipal(1L, "test@example.com")))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDto)))
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
+                )
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andDo(document("wake-up-log-create",
-                        preprocessRequest(prettyPrint()), // JSON 이쁘게 나옴
+                        preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestFields(
-                                fieldWithPath("title").type(JsonFieldType.STRING).optional().description("게시물 제목"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).optional().description("게시물 내용")
+                        requestParts(
+                                partWithName("image").description("업로드할 이미지 파일")
+                        ),
+                        pathParameters(
+                                parameterWithName("title").description("게시물 제목").optional(),
+                                parameterWithName("content").description("게시물 내용").optional()
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
@@ -81,6 +94,7 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                         )
                 ));
     }
+
 
     @DisplayName("기상 기록 리스트 API 문서화")
     @Test

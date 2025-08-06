@@ -10,10 +10,13 @@ import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListR
 import com.back_community.api.wakeUpLog.board.service.WakeUpLogService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class WakeUpLogController {
@@ -22,8 +25,9 @@ public class WakeUpLogController {
 
     @PostMapping("/wake-up-log")
     public ApiResponse<CreateWakeUpResponse> createWakeUpLog(@AuthenticationPrincipal CustomUserPrincipal userPrincipal,
-                                                             @RequestBody @Valid CreateWakeUpLogDto createWakeUpLogDto){
-        return ApiResponse.ok(wakeUpLogService.createWakeUpLog(createWakeUpLogDto, userPrincipal.getUserId()));
+                                                             @ModelAttribute @Valid CreateWakeUpLogDto createWakeUpLogDto,
+                                                             @RequestParam(value = "image", required = false) MultipartFile image){
+        return ApiResponse.ok(wakeUpLogService.createWakeUpLog(createWakeUpLogDto, image, userPrincipal.getUserId()));
     }
 
     @GetMapping("/wake-up-log")
