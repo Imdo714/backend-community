@@ -1,6 +1,7 @@
 package com.back_community.api.common.util;
 
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.back_community.global.exception.handleException.S3UploadFailException;
@@ -57,6 +58,16 @@ public class S3Upload {
             return originalFilename.substring(originalFilename.lastIndexOf("."));
         }
         return "";
+    }
+
+    public void delete(String fileUrl) {
+        String fileKey = extractFileKeyFromUrl(fileUrl);
+        amazonS3Client.deleteObject(bucket, fileKey);
+    }
+
+    private String extractFileKeyFromUrl(String fileUrl) {
+        String bucketUrl = "https://" + bucket + ".s3.ap-northeast-2.amazonaws.com/";
+        return fileUrl.replace(bucketUrl, "");
     }
 
 }

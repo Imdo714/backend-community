@@ -37,7 +37,7 @@ public class WakeUpLogServiceImpl implements WakeUpLogService {
     @Transactional
     public CreateWakeUpResponse createWakeUpLog(CreateWakeUpLogDto createWakeUpLogDto, MultipartFile image, Long userId) {
         User user = wakeUpLogDao.getUserLock(userId);
-//        wakeUpLogDao.validateNotWakeUpLogToday(userId); // 오늘 작성했는지 안했는지 확인
+        wakeUpLogDao.validateNotWakeUpLogToday(userId);
 
         String imageUpload = null;
         if(image != null){
@@ -97,6 +97,10 @@ public class WakeUpLogServiceImpl implements WakeUpLogService {
     public void wakeUpLogDelete(Long logId, Long userId) {
         WakeUpLog wakeUpLog = validateWakeUpUserIsOwner(userId, logId);
         wakeUpLogDao.deleteWakeUpLog(wakeUpLog.getWakeUpId());
+
+        if(wakeUpLog.getImageUrl() != null) {
+            s3Upload.delete(wakeUpLog.getImageUrl());
+        }
     }
 
     private void yesterdayWakeUpLogStreak(Long userId, User user) {
