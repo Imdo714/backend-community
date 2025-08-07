@@ -12,6 +12,8 @@ public class WakeUpLogDetailResponse {
 
     private String title;
     private String content;
+    private String imageUrl;
+    private Long writeUserId;
     private LocalDateTime createDate;
     private int likesCount;
 
@@ -19,6 +21,8 @@ public class WakeUpLogDetailResponse {
         return WakeUpLogDetailResponse.builder()
                 .title(wakeUpLogDetail.getBoard().getTitle())
                 .content(wakeUpLogDetail.getBoard().getContent())
+                .imageUrl(wakeUpLogDetail.getImageUrl())
+                .writeUserId(wakeUpLogDetail.getUser().getUserId())
                 .createDate(wakeUpLogDetail.getBoard().getCreateDate())
                 .likesCount(likesCount)
                 .build();

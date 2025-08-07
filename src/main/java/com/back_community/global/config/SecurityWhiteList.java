@@ -6,6 +6,8 @@ public class SecurityWhiteList {
 
     public static final String[] PUBLIC_GET_URLS = {
             "/wake-up-log",
+            "/wake-up-log/*",
+            "/wake-up-log/*/comment",
     };
 
     public static final String[] PUBLIC_URLS = {

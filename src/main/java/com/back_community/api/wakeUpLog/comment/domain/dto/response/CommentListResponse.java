@@ -24,6 +24,7 @@ public class CommentListResponse {
     public static class CommentList {
         private Long commentId;
         private String imageUrl;
+        private String userName;
         private String content;
         private LocalDateTime createDate;
     }
@@ -33,6 +34,7 @@ public class CommentListResponse {
                 .map(res -> CommentList.builder()
                         .commentId(res.getCommentId())
                         .imageUrl(res.getUser().getImageUrl())
+                        .userName(res.getUser().getName())
                         .content(res.getComment().getContent())
                         .createDate(res.getComment().getCreateDate())
                         .build())

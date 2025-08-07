@@ -160,6 +160,8 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
         WakeUpLogDetailResponse response = WakeUpLogDetailResponse.builder()
                 .title("기상 기록 제목")
                 .content("기상 내용")
+                .imageUrl("https://imageUrl")
+                .writeUserId(1L)
                 .createDate(LocalDateTime.of(2025, 7, 14, 7, 0))
                 .likesCount(10)
                 .build();
@@ -181,6 +183,8 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
                                 fieldWithPath("data.title").type(JsonFieldType.STRING).description("기상 제목"),
                                 fieldWithPath("data.content").type(JsonFieldType.STRING).description("기상 내용"),
+                                fieldWithPath("data.imageUrl").type(JsonFieldType.STRING).description("작성자 프로필 이미지"),
+                                fieldWithPath("data.writeUserId").type(JsonFieldType.NUMBER).description("작성자 Id"),
                                 fieldWithPath("data.createDate").type(JsonFieldType.ARRAY).description("작성일시"),
                                 fieldWithPath("data.likesCount").type(JsonFieldType.NUMBER).description("좋아요 수")
                         )
@@ -200,6 +204,8 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
         WakeUpLogDetailResponse response = WakeUpLogDetailResponse.builder()
                 .title("기상 기록 제목 수정함")
                 .content("기상 내용 수정함")
+                .imageUrl("https://imageUrl")
+                .writeUserId(1L)
                 .createDate(LocalDateTime.of(2025, 7, 14, 7, 0))
                 .likesCount(10)
                 .build();
@@ -229,6 +235,8 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
                                 fieldWithPath("data.title").type(JsonFieldType.STRING).description("기상 제목"),
                                 fieldWithPath("data.content").type(JsonFieldType.STRING).description("기상 내용"),
+                                fieldWithPath("data.imageUrl").type(JsonFieldType.STRING).description("작성자 프로필 이미지"),
+                                fieldWithPath("data.writeUserId").type(JsonFieldType.NUMBER).description("작성자 Id"),
                                 fieldWithPath("data.createDate").type(JsonFieldType.ARRAY).description("작성일시"),
                                 fieldWithPath("data.likesCount").type(JsonFieldType.NUMBER).description("좋아요 수")
                         )

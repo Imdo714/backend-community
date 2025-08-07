@@ -38,7 +38,7 @@ public class UserControllerDocsTest extends RestDocsSupport {
         // given
         LoginDto loginDto = new LoginDto("test@example.com", "password");
 
-        LoginResponse response = LoginResponse.builder().accessToken("accessToken 입니다.").userName("홍길동").build();
+        LoginResponse response = LoginResponse.builder().accessToken("accessToken 입니다.").userId(1L).userName("홍길동").build();
 
         given(userService.loginAndGenerateToken(any(LoginDto.class)))
                 .willReturn(response);
@@ -62,6 +62,7 @@ public class UserControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("status").type(JsonFieldType.STRING).description("응답 상태"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
                                 fieldWithPath("data.accessToken").type(JsonFieldType.STRING).description("accessToken"),
+                                fieldWithPath("data.userId").type(JsonFieldType.NUMBER).description("회원 번호"),
                                 fieldWithPath("data.userName").type(JsonFieldType.STRING).description("회원 이름")
                         )
                 ));

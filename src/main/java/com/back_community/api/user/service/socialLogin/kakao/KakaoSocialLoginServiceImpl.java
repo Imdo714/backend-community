@@ -40,6 +40,7 @@ public class KakaoSocialLoginServiceImpl implements KakaoSocialLoginService {
 
         return LoginResponse.builder()
                 .accessToken(jwtTokenProvider.createToken(user.getEmail(), user.getUserId()))
+                .userId(user.getUserId())
                 .userName(user.getName())
                 .build();
     }

@@ -79,6 +79,7 @@ public class WakeUpLogCommentControllerDocsTest extends RestDocsSupport {
         CommentListResponse.CommentList commentList = CommentListResponse.CommentList.builder()
                 .commentId(3L)
                 .imageUrl("http://img_Url")
+                .userName("홀길동")
                 .content("댓글 입니다.")
                 .createDate(LocalDateTime.now())
                 .build();
@@ -114,6 +115,7 @@ public class WakeUpLogCommentControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("data.wakeUpCommentLists").type(JsonFieldType.ARRAY).description("기상 게시물 댓글 리스트"),
                                 fieldWithPath("data.wakeUpCommentLists[0].commentId").type(JsonFieldType.NUMBER).description("댓글 ID"),
                                 fieldWithPath("data.wakeUpCommentLists[0].imageUrl").type(JsonFieldType.STRING).description("댓글 작성자 프로필"),
+                                fieldWithPath("data.wakeUpCommentLists[0].userName").type(JsonFieldType.STRING).description("댓글 작성자 이름"),
                                 fieldWithPath("data.wakeUpCommentLists[0].content").type(JsonFieldType.STRING).description("댓글 내용"),
                                 fieldWithPath("data.wakeUpCommentLists[0].createDate").type(JsonFieldType.ARRAY).description("댓글 생성일"),
 
