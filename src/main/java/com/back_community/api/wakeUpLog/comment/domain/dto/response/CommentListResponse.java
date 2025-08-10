@@ -16,13 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 public class CommentListResponse {
 
-    private List<CommentList> wakeUpCommentLists;
+    private List<Comment> wakeUpComments;
     private PageInfo pageable;
 
     @Getter
     @Builder
-    public static class CommentList {
+    public static class Comment {
         private Long commentId;
+        private Long userId;
         private String imageUrl;
         private String userName;
         private String content;
@@ -30,9 +31,10 @@ public class CommentListResponse {
     }
 
     public static CommentListResponse commentListBuilder(Page<WakeUpComment> comments){
-        List<CommentListResponse.CommentList> list = comments.getContent().stream()
-                .map(res -> CommentList.builder()
+        List<Comment> list = comments.getContent().stream()
+                .map(res -> Comment.builder()
                         .commentId(res.getCommentId())
+                        .userId(res.getUser().getUserId())
                         .imageUrl(res.getUser().getImageUrl())
                         .userName(res.getUser().getName())
                         .content(res.getComment().getContent())
@@ -43,9 +45,9 @@ public class CommentListResponse {
         PageInfo pageInfo = PageInfo.pageBuilder(comments);
 
         return CommentListResponse.builder()
-                .wakeUpCommentLists(list)
+                .wakeUpComments(list)
                 .pageable(pageInfo)
                 .build();
-    }
+    };
 
 }

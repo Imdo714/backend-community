@@ -75,11 +75,20 @@ public class WakeUpLogServiceImpl implements WakeUpLogService {
     }
 
     @Override
-    public WakeUpLogDetailResponse wakeUpLogDetail(Long logId) {
+    public WakeUpLogDetailResponse wakeUpLogDetail(Long logId, Long userId) {
+        boolean isLiked = isUserLikedLog(logId, userId);
+
         WakeUpLog wakeUpLogDetail = wakeUpLogDao.getWakeUpLog(logId);
         int countWakeUpLogLikes = wakeUpLogDao.getCountWakeUpLogLikes(logId);
 
-        return WakeUpLogDetailResponse.of(wakeUpLogDetail, countWakeUpLogLikes);
+        return WakeUpLogDetailResponse.of(wakeUpLogDetail, countWakeUpLogLikes, isLiked);
+    }
+
+    private boolean isUserLikedLog(Long logId, Long userId) {
+        if(userId != null){
+             return wakeUpLogDao.checkWakeUpLogUserLike(logId, userId);
+        }
+        return false;
     }
 
     @Override
@@ -89,7 +98,7 @@ public class WakeUpLogServiceImpl implements WakeUpLogService {
         int countWakeUpLogLikes = wakeUpLogDao.getCountWakeUpLogLikes(logId);
 
         wakeUpLog.getBoard().updateBoard(updateWakeUpLogDto);
-        return WakeUpLogDetailResponse.of(wakeUpLog, countWakeUpLogLikes);
+        return WakeUpLogDetailResponse.of(wakeUpLog, countWakeUpLogLikes, false);
     }
 
     @Override

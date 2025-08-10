@@ -12,7 +12,8 @@ public interface WakeUpLogService {
 
     WakeUpLogListResponse getWakeUpLogList(int page, int size);
 
-    WakeUpLogDetailResponse wakeUpLogDetail(Long logId);
+    WakeUpLogDetailResponse wakeUpLogDetail(Long logId, Long userId);
+
 
     WakeUpLogDetailResponse wakeUpLogUpdate(Long logId, Long userId, UpdateWakeUpLogDto updateWakeUpLogDto);
 

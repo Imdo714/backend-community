@@ -5,6 +5,7 @@ import com.back_community.api.common.authentication.CustomUserPrincipal;
 import com.back_community.api.wakeUpLog.comment.domain.dto.request.CreateCommentDto;
 import com.back_community.api.wakeUpLog.comment.domain.dto.request.UpdateCommentDto;
 import com.back_community.api.wakeUpLog.comment.domain.dto.response.CommentListResponse;
+import com.back_community.api.wakeUpLog.comment.domain.dto.response.CommentResponse;
 import com.back_community.api.wakeUpLog.comment.service.WakeUpCommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,10 @@ public class WakeUpCommentController {
     private final WakeUpCommentService wakeUpCommentService;
 
     @PostMapping("/wake-up-log/{logId}/comment")
-    public ApiResponse<?> createComment(@PathVariable Long logId,
-                                        @AuthenticationPrincipal CustomUserPrincipal userPrincipal,
-                                        @RequestBody @Valid CreateCommentDto createCommentDto){
-
-        wakeUpCommentService.createComment(createCommentDto, userPrincipal.getUserId(), logId);
-        return ApiResponse.of(HttpStatus.OK, "댓글 작성 성공");
+    public ApiResponse<CommentResponse> createComment(@PathVariable Long logId,
+                                                      @AuthenticationPrincipal CustomUserPrincipal userPrincipal,
+                                                      @RequestBody @Valid CreateCommentDto createCommentDto){
+        return ApiResponse.ok(wakeUpCommentService.createComment(createCommentDto, userPrincipal.getUserId(), logId));
     }
 
     @GetMapping("/wake-up-log/{logId}/comment")

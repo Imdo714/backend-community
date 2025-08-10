@@ -8,6 +8,7 @@ import com.back_community.api.user.domain.entity.User;
 import com.back_community.api.user.repository.UserRepository;
 import com.back_community.global.exception.handleException.DatabaseException;
 import com.back_community.global.exception.handleException.DuplicateEmailException;
+import com.back_community.global.exception.handleException.MatchException;
 import com.back_community.global.exception.handleException.NotFoundException;
 import com.back_community.global.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     public void matchPassword(LoginDto loginDto, User user) {
         if (!user.isPasswordMatch(loginDto.getPassword())) {
-            throw new NotFoundException("비밀번호가 일치하지 않습니다.");
+            throw new MatchException("비밀번호가 일치하지 않습니다.");
         }
     }
 

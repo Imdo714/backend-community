@@ -15,4 +15,7 @@ public interface WakeUpLikeRepository extends JpaRepository<WakeUpLike, Long>  {
     boolean existsByUserIdAndWakeUpLogId(Long userId, Long wakeUpLogId);
 
     Optional<WakeUpLike> findByUser_UserIdAndWakeUpLog_WakeUpId(Long userId, Long wakeUpLogId);
+
+    boolean existsByWakeUpLog_WakeUpIdAndUser_UserId(Long wakeUpLogId, Long userId);
+
 }

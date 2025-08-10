@@ -162,11 +162,14 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                 .content("기상 내용")
                 .imageUrl("https://imageUrl")
                 .writeUserId(1L)
+                .writeUserProfile("https://userImageUrl")
+                .writeUserName("홍길동")
                 .createDate(LocalDateTime.of(2025, 7, 14, 7, 0))
                 .likesCount(10)
+                .isLiked(true)
                 .build();
 
-        given(wakeUpLogService.wakeUpLogDetail(logId)).willReturn(response);
+        given(wakeUpLogService.wakeUpLogDetail(anyLong(), anyLong())).willReturn(response);
 
         // when then
         mockMvc.perform(get("/wake-up-log/{logId}", logId))
@@ -181,12 +184,17 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
                                 fieldWithPath("status").type(JsonFieldType.STRING).description("응답 상태"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
-                                fieldWithPath("data.title").type(JsonFieldType.STRING).description("기상 제목"),
-                                fieldWithPath("data.content").type(JsonFieldType.STRING).description("기상 내용"),
-                                fieldWithPath("data.imageUrl").type(JsonFieldType.STRING).description("작성자 프로필 이미지"),
+                                fieldWithPath("data.title").type(JsonFieldType.STRING).description("기상 게시물 제목"),
+                                fieldWithPath("data.content").type(JsonFieldType.STRING).description("기상 게시물 내용"),
+                                fieldWithPath("data.imageUrl").type(JsonFieldType.STRING).description("기상 게시물 사진"),
                                 fieldWithPath("data.writeUserId").type(JsonFieldType.NUMBER).description("작성자 Id"),
+
+                                fieldWithPath("data.writeUserProfile").type(JsonFieldType.STRING).description("작성자 프로필 이미지"),
+                                fieldWithPath("data.writeUserName").type(JsonFieldType.STRING).description("작성자 이름"),
+
                                 fieldWithPath("data.createDate").type(JsonFieldType.ARRAY).description("작성일시"),
-                                fieldWithPath("data.likesCount").type(JsonFieldType.NUMBER).description("좋아요 수")
+                                fieldWithPath("data.likesCount").type(JsonFieldType.NUMBER).description("좋아요 수"),
+                                fieldWithPath("data.liked").type(JsonFieldType.BOOLEAN).description("로그인시 좋아요 여부")
                         )
                 ));
     }
@@ -206,8 +214,11 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                 .content("기상 내용 수정함")
                 .imageUrl("https://imageUrl")
                 .writeUserId(1L)
+                .writeUserProfile("https://userImageUrl")
+                .writeUserName("홍길동")
                 .createDate(LocalDateTime.of(2025, 7, 14, 7, 0))
                 .likesCount(10)
+                .isLiked(true)
                 .build();
 
         given(wakeUpLogService.wakeUpLogUpdate(eq(logId), anyLong(), any(UpdateWakeUpLogDto.class)))
@@ -237,8 +248,11 @@ public class WakeUpLogControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("data.content").type(JsonFieldType.STRING).description("기상 내용"),
                                 fieldWithPath("data.imageUrl").type(JsonFieldType.STRING).description("작성자 프로필 이미지"),
                                 fieldWithPath("data.writeUserId").type(JsonFieldType.NUMBER).description("작성자 Id"),
+                                fieldWithPath("data.writeUserProfile").type(JsonFieldType.STRING).description("작성자 프로필 이미지"),
+                                fieldWithPath("data.writeUserName").type(JsonFieldType.STRING).description("작성자 이름"),
                                 fieldWithPath("data.createDate").type(JsonFieldType.ARRAY).description("작성일시"),
-                                fieldWithPath("data.likesCount").type(JsonFieldType.NUMBER).description("좋아요 수")
+                                fieldWithPath("data.likesCount").type(JsonFieldType.NUMBER).description("좋아요 수"),
+                                fieldWithPath("data.liked").type(JsonFieldType.BOOLEAN).description("로그인시 좋아요 여부")
                         )
                 ));
     }

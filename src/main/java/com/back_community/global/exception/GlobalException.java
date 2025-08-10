@@ -1,10 +1,7 @@
 package com.back_community.global.exception;
 
 import com.back_community.api.ApiResponse;
-import com.back_community.global.exception.handleException.DuplicateEmailException;
-import com.back_community.global.exception.handleException.MismatchException;
-import com.back_community.global.exception.handleException.NotFoundException;
-import com.back_community.global.exception.handleException.S3UploadFailException;
+import com.back_community.global.exception.handleException.*;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -57,4 +54,9 @@ public class GlobalException {
         return ApiResponse.of(HttpStatus.LOCKED, e.getMessage(), null);
     }
 
+    @ExceptionHandler(MatchException.class)
+    public ApiResponse<Object> matchExceptionException(MatchException e, HttpServletResponse response) {
+        response.setStatus(HttpStatus.CONFLICT.value());
+        return ApiResponse.of(HttpStatus.CONFLICT, e.getMessage(), null);
+    }
 }

@@ -6,6 +6,7 @@ import com.back_community.api.wakeUpLog.board.domain.entity.WakeUpLog;
 import com.back_community.api.wakeUpLog.comment.domain.dto.request.CreateCommentDto;
 import com.back_community.api.wakeUpLog.comment.domain.dto.request.UpdateCommentDto;
 import com.back_community.api.wakeUpLog.comment.domain.dto.response.CommentListResponse;
+import com.back_community.api.wakeUpLog.comment.domain.dto.response.CommentResponse;
 import com.back_community.api.wakeUpLog.comment.domain.entity.WakeUpComment;
 import com.back_community.api.wakeUpLog.dao.WakeUpLogDao;
 import com.back_community.global.exception.handleException.MismatchException;
@@ -25,7 +26,7 @@ public class WakeUpCommentServiceImpl implements WakeUpCommentService {
 
     @Override
     @Transactional
-    public void createComment(CreateCommentDto createCommentDto, Long userId, Long logId) {
+    public CommentResponse createComment(CreateCommentDto createCommentDto, Long userId, Long logId) {
         User user = wakeUpLogDao.getUser(userId);
         WakeUpLog wakeUpLog = wakeUpLogDao.getWakeUpLog(logId);
 
@@ -33,6 +34,9 @@ public class WakeUpCommentServiceImpl implements WakeUpCommentService {
         WakeUpComment wakeUpComment = WakeUpComment.builderWakeUpComment(user, wakeUpLog, comment);
 
         WakeUpComment saved = wakeUpLogDao.saveWakeUpComment(wakeUpComment);
+
+//        CommentListResponse.Comment commented = CommentListResponse.commentBuilder(saved);
+        return CommentResponse.commentBuilder(saved);
     }
 
     @Override

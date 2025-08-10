@@ -2,11 +2,11 @@ package com.back_community.docs.wakeUpLog;
 
 import com.back_community.api.common.authentication.CustomUserPrincipal;
 import com.back_community.api.common.page.PageInfo;
-import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
 import com.back_community.api.wakeUpLog.comment.controller.WakeUpCommentController;
 import com.back_community.api.wakeUpLog.comment.domain.dto.request.CreateCommentDto;
 import com.back_community.api.wakeUpLog.comment.domain.dto.request.UpdateCommentDto;
 import com.back_community.api.wakeUpLog.comment.domain.dto.response.CommentListResponse;
+import com.back_community.api.wakeUpLog.comment.domain.dto.response.CommentResponse;
 import com.back_community.api.wakeUpLog.comment.service.WakeUpCommentService;
 import com.back_community.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
@@ -44,14 +44,28 @@ public class WakeUpLogCommentControllerDocsTest extends RestDocsSupport {
     @Test
     void createComment() throws Exception {
         // given
-        Long logId = 1L;
+        Long logId = 3L;
+        Long userId = 1L;
         CreateCommentDto commentDto = CreateCommentDto.builder().content("댓글 입니다.").build();
+        CommentResponse comment = CommentResponse.builder()
+                .commentId(logId)
+                .userId(userId)
+                .imageUrl("http://img_Url")
+                .userName("홀길동")
+                .content("댓글 입니다.")
+                .createDate(LocalDateTime.now())
+                .build();
 
         // when then
-        mockMvc.perform(post("/wake-up-log/{logId}/comment", logId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(commentDto)))
-                .andDo(print())
+        given(wakeUpCommentService.createComment(any(), eq(userId), eq(logId)))
+                .willReturn(comment);
+
+        mockMvc.perform(
+                    post("/wake-up-log/{logId}/comment", logId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(commentDto)))
+                        .andDo(print()
+                )
                 .andExpect(status().isOk())
                 .andDo(document("wake-up-comment-create",
                         preprocessRequest(prettyPrint()),
@@ -66,7 +80,12 @@ public class WakeUpLogCommentControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
                                 fieldWithPath("status").type(JsonFieldType.STRING).description("응답 상태"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
-                                fieldWithPath("data").type(JsonFieldType.STRING).description("댓글 작성 성공 메시지")
+                                fieldWithPath("data.commentId").type(JsonFieldType.NUMBER).description("댓글 ID"),
+                                fieldWithPath("data.userId").type(JsonFieldType.NUMBER).description("댓글 작성자 ID"),
+                                fieldWithPath("data.imageUrl").type(JsonFieldType.STRING).description("댓글 작성자 프로필"),
+                                fieldWithPath("data.userName").type(JsonFieldType.STRING).description("댓글 작성자 이름"),
+                                fieldWithPath("data.content").type(JsonFieldType.STRING).description("댓글 내용"),
+                                fieldWithPath("data.createDate").type(JsonFieldType.ARRAY).description("댓글 생성일")
                         )
                 ));
     }
@@ -76,8 +95,9 @@ public class WakeUpLogCommentControllerDocsTest extends RestDocsSupport {
     void wakeUpCommentList() throws Exception {
         // given
         Long logId = 1L;
-        CommentListResponse.CommentList commentList = CommentListResponse.CommentList.builder()
+        CommentListResponse.Comment comment = CommentListResponse.Comment.builder()
                 .commentId(3L)
+                .userId(1L)
                 .imageUrl("http://img_Url")
                 .userName("홀길동")
                 .content("댓글 입니다.")
@@ -87,7 +107,7 @@ public class WakeUpLogCommentControllerDocsTest extends RestDocsSupport {
         PageInfo pageInfo = new PageInfo(0, 5, 1, 5);
 
         CommentListResponse response = CommentListResponse.builder()
-                .wakeUpCommentLists(List.of(commentList))
+                .wakeUpComments(List.of(comment))
                 .pageable(pageInfo)
                 .build();
 
@@ -112,12 +132,13 @@ public class WakeUpLogCommentControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
                                 fieldWithPath("data").type(JsonFieldType.OBJECT).description("응답 데이터"),
 
-                                fieldWithPath("data.wakeUpCommentLists").type(JsonFieldType.ARRAY).description("기상 게시물 댓글 리스트"),
-                                fieldWithPath("data.wakeUpCommentLists[0].commentId").type(JsonFieldType.NUMBER).description("댓글 ID"),
-                                fieldWithPath("data.wakeUpCommentLists[0].imageUrl").type(JsonFieldType.STRING).description("댓글 작성자 프로필"),
-                                fieldWithPath("data.wakeUpCommentLists[0].userName").type(JsonFieldType.STRING).description("댓글 작성자 이름"),
-                                fieldWithPath("data.wakeUpCommentLists[0].content").type(JsonFieldType.STRING).description("댓글 내용"),
-                                fieldWithPath("data.wakeUpCommentLists[0].createDate").type(JsonFieldType.ARRAY).description("댓글 생성일"),
+                                fieldWithPath("data.wakeUpComments").type(JsonFieldType.ARRAY).description("기상 게시물 댓글 리스트"),
+                                fieldWithPath("data.wakeUpComments[0].commentId").type(JsonFieldType.NUMBER).description("댓글 ID"),
+                                fieldWithPath("data.wakeUpComments[0].userId").type(JsonFieldType.NUMBER).description("댓글 작성자 ID"),
+                                fieldWithPath("data.wakeUpComments[0].imageUrl").type(JsonFieldType.STRING).description("댓글 작성자 프로필"),
+                                fieldWithPath("data.wakeUpComments[0].userName").type(JsonFieldType.STRING).description("댓글 작성자 이름"),
+                                fieldWithPath("data.wakeUpComments[0].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                                fieldWithPath("data.wakeUpComments[0].createDate").type(JsonFieldType.ARRAY).description("댓글 생성일"),
 
                                 fieldWithPath("data.pageable.totalElements").description("총 요소 수"),
                                 fieldWithPath("data.pageable.totalPages").description("총 페이지 수"),

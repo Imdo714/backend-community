@@ -3,10 +3,11 @@ package com.back_community.api.wakeUpLog.comment.service;
 import com.back_community.api.wakeUpLog.comment.domain.dto.request.CreateCommentDto;
 import com.back_community.api.wakeUpLog.comment.domain.dto.request.UpdateCommentDto;
 import com.back_community.api.wakeUpLog.comment.domain.dto.response.CommentListResponse;
+import com.back_community.api.wakeUpLog.comment.domain.dto.response.CommentResponse;
 
 public interface WakeUpCommentService {
 
-    void createComment(CreateCommentDto createCommentDto, Long userId, Long logId);
+    CommentResponse createComment(CreateCommentDto createCommentDto, Long userId, Long logId);
 
     CommentListResponse getCommentList(Long logId, int page, int size);
 

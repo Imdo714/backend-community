@@ -73,6 +73,10 @@ public class WakeUpLogDao {
         wakeUpLikeRepository.deleteById(userId);
     }
 
+    public boolean checkWakeUpLogUserLike(Long logId, Long userId) {
+        return wakeUpLikeRepository.existsByWakeUpLog_WakeUpIdAndUser_UserId(logId, userId);
+    }
+
     public WakeUpLog getWakeUpLog(Long wakeUpId){
         return wakeUpLogRepository.findById(wakeUpId)
                 .orElseThrow(() -> new NotFoundException("해당 기상 게시물은 존재하지 않습니다."));
