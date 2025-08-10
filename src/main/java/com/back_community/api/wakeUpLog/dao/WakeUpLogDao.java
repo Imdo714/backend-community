@@ -3,6 +3,8 @@ package com.back_community.api.wakeUpLog.dao;
 import com.back_community.api.user.domain.entity.User;
 import com.back_community.api.user.repository.UserRepository;
 import com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpListDto;
+import com.back_community.api.wakeUpLog.board.domain.dto.request.WakeUpTop3Dto;
+import com.back_community.api.wakeUpLog.board.domain.dto.response.WriteWakeUpTop3;
 import com.back_community.api.wakeUpLog.board.domain.entity.WakeUpLog;
 import com.back_community.api.wakeUpLog.board.repository.WakeUpLogRepository;
 import com.back_community.api.wakeUpLog.comment.domain.entity.WakeUpComment;
@@ -19,7 +21,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -75,6 +79,10 @@ public class WakeUpLogDao {
 
     public boolean checkWakeUpLogUserLike(Long logId, Long userId) {
         return wakeUpLikeRepository.existsByWakeUpLog_WakeUpIdAndUser_UserId(logId, userId);
+    }
+
+    public List<WakeUpTop3Dto> getWriteWakeUpRank(LocalDateTime startOfMonth, LocalDateTime endOfMonth) {
+        return wakeUpLogRepository.getWriteWakeUpTop3(startOfMonth, endOfMonth, PageRequest.of(0, 3));
     }
 
     public WakeUpLog getWakeUpLog(Long wakeUpId){

@@ -7,6 +7,7 @@ import com.back_community.api.wakeUpLog.board.domain.dto.request.UpdateWakeUpLog
 import com.back_community.api.wakeUpLog.board.domain.dto.response.CreateWakeUpResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogDetailResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
+import com.back_community.api.wakeUpLog.board.domain.dto.response.WriteWakeUpTop3;
 import com.back_community.api.wakeUpLog.board.service.WakeUpLogService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,11 @@ public class WakeUpLogController {
                                           @AuthenticationPrincipal CustomUserPrincipal userPrincipal){
         wakeUpLogService.wakeUpLogDelete(logId, userPrincipal.getUserId());
         return ApiResponse.of(HttpStatus.OK, "삭제 성공");
+    }
+
+    @GetMapping("/wake-up-log/rank")
+    public ApiResponse<WriteWakeUpTop3> wakeUpRank(){
+        return ApiResponse.ok(wakeUpLogService.getWriteWakeUpRank());
     }
 
 }

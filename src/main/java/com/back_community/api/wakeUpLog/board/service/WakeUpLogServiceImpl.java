@@ -8,6 +8,7 @@ import com.back_community.api.wakeUpLog.board.domain.dto.request.*;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.CreateWakeUpResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogDetailResponse;
 import com.back_community.api.wakeUpLog.board.domain.dto.response.WakeUpLogListResponse;
+import com.back_community.api.wakeUpLog.board.domain.dto.response.WriteWakeUpTop3;
 import com.back_community.api.wakeUpLog.board.domain.entity.WakeUpLog;
 import com.back_community.api.wakeUpLog.dao.WakeUpLogDao;
 import com.back_community.global.exception.handleException.MismatchException;
@@ -110,6 +111,15 @@ public class WakeUpLogServiceImpl implements WakeUpLogService {
         if(wakeUpLog.getImageUrl() != null) {
             s3Upload.delete(wakeUpLog.getImageUrl());
         }
+    }
+
+    @Override
+    public WriteWakeUpTop3 getWriteWakeUpRank() {
+        LocalDateTime startOfMonth = LocalDate.now().withDayOfMonth(1).atStartOfDay();
+        LocalDateTime endOfMonth = LocalDate.now().atTime(23, 59, 59);
+
+        List<WakeUpTop3Dto> writeWakeUpRank = wakeUpLogDao.getWriteWakeUpRank(startOfMonth, endOfMonth);
+        return WriteWakeUpTop3.top3Builder(writeWakeUpRank);
     }
 
     private void yesterdayWakeUpLogStreak(Long userId, User user) {
